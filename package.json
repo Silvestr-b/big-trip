@@ -1,0 +1,17 @@
+{
+  "name": "big-trip",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "nanoid": "^3.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.0",
+    "babel": "^6.23.0",
+    "jest": "^27.4.7"
+  }
+}
