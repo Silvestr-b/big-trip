@@ -1,7 +1,7 @@
+import dayjs from 'dayjs';
 import {Place} from "./Place";
 import {ActivityOption} from "./ActivityOption";
 import {ActivityType} from "./ActivityType";
-import dayjs from 'dayjs';
 import {PlaceCatalog} from "./PlaceCatalog";
 import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
 
