@@ -70,7 +70,7 @@ export class Activity {
 		return this.chosenOptions.has(option);
 	}
 
-	public isFavored() {
+	public isFavorite() {
 		return this.favorite;
 	}
 
@@ -97,6 +97,9 @@ export class Activity {
 	}
 
 	public toggleOption(option: ActivityOption) {
+		if (!this.type.isOptionAcceptable(option)) {
+			return;
+		}
 		if (this.chosenOptions.has(option)) {
 			this.chosenOptions.delete(option);
 		} else {

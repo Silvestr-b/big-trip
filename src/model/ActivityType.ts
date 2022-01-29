@@ -22,4 +22,8 @@ export class ActivityType {
 	public getAvailableOptions() {
 		return this.options;
 	}
+
+	public isOptionAcceptable(option: ActivityOption) {
+		return this.options.includes(option);
+	}
 }
