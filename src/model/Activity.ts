@@ -1,23 +1,23 @@
 import dayjs from 'dayjs';
-import {Place} from "./Place";
-import {ActivityOption} from "./ActivityOption";
+import {Location} from "./Location";
+import {LocationCatalog} from "./LocationCatalog";
 import {ActivityType} from "./ActivityType";
-import {PlaceCatalog} from "./PlaceCatalog";
 import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
+import {ActivityOption} from "./ActivityOption";
 
 export class Activity {
 	private readonly chosenOptions: Set<ActivityOption>;
 	private type: ActivityType;
-	private place: Place;
+	private location: Location;
 	private startDate: Date;
 	private endDate: Date;
 	private basePrice: number;
 	private favorite: boolean;
 
-	constructor(activityTypeCatalog: ActivityTypeCatalog, placeCatalog: PlaceCatalog) {
+	constructor(activityTypeCatalog: ActivityTypeCatalog, locationCatalog: LocationCatalog) {
 		this.chosenOptions = new Set();
 		this.type = activityTypeCatalog.getDefaultType();
-		this.place = placeCatalog.getDefaultPlace();
+		this.location = locationCatalog.getDefaultLocation();
 		this.startDate = dayjs().toDate();
 		this.endDate = dayjs().add(2, 'day').toDate();
 		this.basePrice = 5;
@@ -27,7 +27,7 @@ export class Activity {
 	// Queries
 
 	public getName() {
-		return `${this.type.getName()} ${this.place.getName()}`;
+		return `${this.type.getName()} ${this.location.getName()}`;
 	}
 
 	public getType() {
@@ -38,8 +38,8 @@ export class Activity {
 		return this.basePrice;
 	}
 
-	public getPlace() {
-		return this.place;
+	public getLocation() {
+		return this.location;
 	}
 
 	public getStartDate() {
@@ -88,8 +88,8 @@ export class Activity {
 		this.endDate = date;
 	}
 
-	public setPlace(place: Place) {
-		this.place = place;
+	public setLocation(location: Location) {
+		this.location = location;
 	}
 
 	public toggleFavorite() {

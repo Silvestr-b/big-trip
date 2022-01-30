@@ -1,4 +1,4 @@
-export class Place {
+export class Location {
 	private readonly name: string;
 	private readonly description: string;
 	private readonly photos: string[];
