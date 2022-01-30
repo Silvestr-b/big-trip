@@ -1,6 +1,6 @@
 import {Activity} from "./Activity";
 import {ActivityType} from "./ActivityType";
-import {NotAddedActivityError} from "./errors/NotAddedActivityError";
+import {UnknownActivityError} from "./errors/UnknownActivityError";
 import {EmptyItineraryError} from "./errors/EmptyItineraryError";
 
 export class Itinerary {
@@ -84,7 +84,7 @@ export class Itinerary {
 
 	public removeActivity(activity: Activity) {
 		if (!this.hasActivity(activity)) {
-			throw new NotAddedActivityError();
+			throw new UnknownActivityError();
 		}
 		this.activities.delete(activity);
 	}

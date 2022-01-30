@@ -71,7 +71,7 @@ describe("Activity", () => {
 			expect(activity.isFavorite()).toBe(true);
 		});
 
-		it("Should be not favorite if toggle back", () => {
+		it("Should not be favorite if toggle back", () => {
 			activity.toggleFavorite();
 			activity.toggleFavorite();
 			expect(activity.isFavorite()).toBe(false);

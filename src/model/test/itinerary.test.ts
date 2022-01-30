@@ -5,7 +5,7 @@ import {Location} from "../Location";
 import {LocationCatalog} from "../LocationCatalog";
 import {Itinerary} from "../Itinerary";
 import {Activity} from "../Activity";
-import {NotAddedActivityError} from "../errors/NotAddedActivityError";
+import {UnknownActivityError} from "../errors/UnknownActivityError";
 import {EmptyItineraryError} from "../errors/EmptyItineraryError";
 
 describe("Itinerary", () => {
@@ -52,7 +52,7 @@ describe("Itinerary", () => {
 		it("Should throw on an attempt to remove an activity not added", () => {
 			const activity = new Activity(activityTypeCatalog, placeCatalog);
 			const run = () => itinerary.removeActivity(activity);
-			expect(run).toThrow(NotAddedActivityError);
+			expect(run).toThrow(UnknownActivityError);
 		});
 	});
 
