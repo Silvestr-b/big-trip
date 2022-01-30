@@ -1,11 +1,11 @@
-import {ActivityOption} from "./ActivityOption";
+import {AdditionalOption} from "./AdditionalOption";
 
 export class ActivityType {
 	private readonly name: string;
 	private readonly icon: string;
-	private readonly options: ActivityOption[];
+	private readonly options: AdditionalOption[];
 
-	constructor(name: string, icon: string, options: ActivityOption[]) {
+	constructor(name: string, icon: string, options: AdditionalOption[]) {
 		this.name = name;
 		this.icon = icon;
 		this.options = options;
@@ -23,7 +23,7 @@ export class ActivityType {
 		return this.options;
 	}
 
-	public isOptionAcceptable(option: ActivityOption) {
+	public isOptionAcceptable(option: AdditionalOption) {
 		return this.options.includes(option);
 	}
 }

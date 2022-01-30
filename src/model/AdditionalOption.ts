@@ -1,6 +1,6 @@
 import {nanoid} from "nanoid";
 
-export class ActivityOption {
+export class AdditionalOption {
 	private readonly ID_LENGTH = 6;
 	private readonly name: string;
 	private readonly description: string;

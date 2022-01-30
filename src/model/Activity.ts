@@ -3,10 +3,10 @@ import {Location} from "./Location";
 import {LocationCatalog} from "./LocationCatalog";
 import {ActivityType} from "./ActivityType";
 import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
-import {ActivityOption} from "./ActivityOption";
+import {AdditionalOption} from "./AdditionalOption";
 
 export class Activity {
-	private readonly selectedOptions: Set<ActivityOption>;
+	private readonly selectedOptions: Set<AdditionalOption>;
 	private type: ActivityType;
 	private location: Location;
 	private startDate: Date;
@@ -66,7 +66,7 @@ export class Activity {
 		return Array.from(this.selectedOptions);
 	}
 
-	public isOptionSelected(option: ActivityOption) {
+	public isOptionSelected(option: AdditionalOption) {
 		return this.selectedOptions.has(option);
 	}
 
@@ -96,7 +96,7 @@ export class Activity {
 		this.favorite = !this.favorite;
 	}
 
-	public toggleOption(option: ActivityOption) {
+	public toggleOption(option: AdditionalOption) {
 		if (!this.type.isOptionAcceptable(option)) {
 			return;
 		}

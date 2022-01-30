@@ -2,13 +2,13 @@ import {LocationCatalog} from "../LocationCatalog";
 import {ActivityTypeCatalog} from "../ActivityTypeCatalog";
 import {Activity} from "../Activity";
 import {ActivityType} from "../ActivityType";
-import {ActivityOption} from "../ActivityOption";
+import {AdditionalOption} from "../AdditionalOption";
 import {Location} from "../Location";
 
 describe("Activity", () => {
-	const upgradeOption = new ActivityOption("Upgrade", "Upgrade to business class", 190);
-	const radioOption = new ActivityOption("RadioStation", "Choose the radio station", 30);
-	const mealOption = new ActivityOption("OrderMeal", "Order Meal", 100);
+	const upgradeOption = new AdditionalOption("Upgrade", "Upgrade to business class", 190);
+	const radioOption = new AdditionalOption("RadioStation", "Choose the radio station", 30);
+	const mealOption = new AdditionalOption("OrderMeal", "Order Meal", 100);
 	const taxiType = new ActivityType("Taxi", "./", [upgradeOption, radioOption]);
 	const busType = new ActivityType("Bus", "./", [mealOption]);
 	const activityTypeCatalog = new ActivityTypeCatalog([taxiType, busType]);
