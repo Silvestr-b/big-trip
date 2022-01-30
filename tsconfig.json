@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
+    "moduleResolution":"node",
+    "module":"commonjs",
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "include":[
+    "src/**/*"
+  ]
 }
