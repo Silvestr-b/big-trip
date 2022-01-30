@@ -6,7 +6,7 @@ import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
 import {ActivityOption} from "./ActivityOption";
 
 export class Activity {
-	private readonly chosenOptions: Set<ActivityOption>;
+	private readonly selectedOptions: Set<ActivityOption>;
 	private type: ActivityType;
 	private location: Location;
 	private startDate: Date;
@@ -15,7 +15,7 @@ export class Activity {
 	private favorite: boolean;
 
 	constructor(activityTypeCatalog: ActivityTypeCatalog, locationCatalog: LocationCatalog) {
-		this.chosenOptions = new Set();
+		this.selectedOptions = new Set();
 		this.type = activityTypeCatalog.getDefaultType();
 		this.location = locationCatalog.getDefaultLocation();
 		this.startDate = dayjs().toDate();
@@ -56,18 +56,18 @@ export class Activity {
 
 	public getTotalPrice() {
 		let result = this.basePrice;
-		for (const option of this.chosenOptions) {
+		for (const option of this.selectedOptions) {
 			result += option.getPrice();
 		}
 		return result;
 	}
 
-	public getChosenOptions() {
-		return Array.from(this.chosenOptions);
+	public getSelectedOptions() {
+		return Array.from(this.selectedOptions);
 	}
 
-	public isOptionChosen(option: ActivityOption) {
-		return this.chosenOptions.has(option);
+	public isOptionSelected(option: ActivityOption) {
+		return this.selectedOptions.has(option);
 	}
 
 	public isFavorite() {
@@ -100,15 +100,15 @@ export class Activity {
 		if (!this.type.isOptionAcceptable(option)) {
 			return;
 		}
-		if (this.chosenOptions.has(option)) {
-			this.chosenOptions.delete(option);
+		if (this.selectedOptions.has(option)) {
+			this.selectedOptions.delete(option);
 		} else {
-			this.chosenOptions.add(option);
+			this.selectedOptions.add(option);
 		}
 	}
 
 	public changeType(type: ActivityType) {
 		this.type = type;
-		this.chosenOptions.clear();
+		this.selectedOptions.clear();
 	}
 }

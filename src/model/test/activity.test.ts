@@ -47,7 +47,7 @@ describe("Activity", () => {
 			expect(activity.getTotalPrice()).toBe(100);
 		});
 
-		it("Should change its total price when an option chosen", () => {
+		it("Should change its total price when an option is selected", () => {
 			activity.setBasePrice(100);
 			activity.toggleOption(upgradeOption);
 			expect(activity.getTotalPrice()).toBe(290);
@@ -78,36 +78,36 @@ describe("Activity", () => {
 		});
 	});
 
-	describe("Chosen Options", () => {
-		it("Should not have chosen options by default", () => {
-			expect(activity.getChosenOptions()).toEqual([]);
+	describe("Selected Options", () => {
+		it("Should not have selected options by default", () => {
+			expect(activity.getSelectedOptions()).toEqual([]);
 		});
 
-		it("Should add options when chosen", () => {
+		it("Should add options when selected", () => {
 			activity.toggleOption(upgradeOption);
 			activity.toggleOption(radioOption);
-			expect(activity.isOptionChosen(upgradeOption)).toBe(true);
-			expect(activity.isOptionChosen(radioOption)).toBe(true);
+			expect(activity.isOptionSelected(upgradeOption)).toBe(true);
+			expect(activity.isOptionSelected(radioOption)).toBe(true);
 		});
 
-		it("Should remove options when discarded", () => {
+		it("Should remove options when deselected", () => {
 			activity.toggleOption(upgradeOption);
 			activity.toggleOption(upgradeOption);
-			expect(activity.isOptionChosen(upgradeOption)).toBe(false);
+			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
 		});
 
 		it("Should add only allowed options", () => {
 			activity.changeType(taxiType);
 			activity.toggleOption(mealOption);
-			expect(activity.isOptionChosen(mealOption)).toBe(false);
+			expect(activity.isOptionSelected(mealOption)).toBe(false);
 		});
 
-		it("Should discard all options when the type is changed", () => {
+		it("Should deselect all options when the type is changed", () => {
 			activity.toggleOption(upgradeOption);
 			activity.toggleOption(radioOption);
 			activity.changeType(busType);
-			expect(activity.isOptionChosen(upgradeOption)).toBe(false);
-			expect(activity.isOptionChosen(radioOption)).toBe(false);
+			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
+			expect(activity.isOptionSelected(radioOption)).toBe(false);
 		});
 	});
 
