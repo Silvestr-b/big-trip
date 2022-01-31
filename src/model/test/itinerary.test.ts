@@ -84,11 +84,44 @@ describe("Itinerary", () => {
 		});
 	});
 
-	describe("Stats", () => {
+	describe("Dates", () => {
+		it("Should throw on an attempt to get the start or end date when the itinerary is empty", () => {
+			const getStart = () => itinerary.getStartDate();
+			const getEnd = () => itinerary.getEndDate();
+			expect(getStart).toThrow(EmptyItineraryError);
+			expect(getEnd).toThrow(EmptyItineraryError);
+		});
 
+		it("Should have the same start date as the activity has, when just one activity added", () => {
+			const activity = new Activity(activityTypeCatalog, placeCatalog);
+			itinerary.addActivity(activity);
+			expect(itinerary.getStartDate().getTime()).toBe(activity.getStartDate().getTime());
+		});
+
+		it("Should have the same end date as the activity has, when just one activity added", () => {
+			const activity = new Activity(activityTypeCatalog, placeCatalog);
+			itinerary.addActivity(activity);
+			expect(itinerary.getEndDate().getTime()).toBe(activity.getEndDate().getTime());
+		});
+
+		it("Should have the same start date as the first activity in chronological order", () => {
+			const activity1 = new Activity(activityTypeCatalog, placeCatalog);
+			const activity2 = new Activity(activityTypeCatalog, placeCatalog);
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+			expect(itinerary.getStartDate().getTime()).toBe(activity1.getStartDate().getTime());
+		});
+
+		it("Should have the same end date as the last activity in chronological order", () => {
+			const activity1 = new Activity(activityTypeCatalog, placeCatalog);
+			const activity2 = new Activity(activityTypeCatalog, placeCatalog);
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+			expect(itinerary.getEndDate().getTime()).toBe(activity2.getEndDate().getTime());
+		});
 	});
 
-	describe("Dates", () => {
+	describe("Stats", () => {
 
 	});
 

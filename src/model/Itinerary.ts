@@ -13,11 +13,11 @@ export class Itinerary {
 	// Queries
 
 	public getStartDate() {
-
+		return this.getFirstActivity().getStartDate();
 	}
 
 	public getEndDate() {
-
+		return this.getLastActivity().getEndDate();
 	}
 
 	public getFirstLocationName() {
@@ -115,7 +115,7 @@ export class Itinerary {
 		const activities = Array.from(this.activities);
 		let lastActivity = activities[0];
 		for (const activity of activities) {
-			if (activity.getEndDate() < lastActivity.getEndDate()) {
+			if (activity.getEndDate() > lastActivity.getEndDate()) {
 				lastActivity = activity;
 			}
 		}
