@@ -160,15 +160,12 @@ describe("Activity", () => {
 
 	describe("Duration", () => {
 		it("Should calculate the duration", () => {
-			const date1 = new Date();
-			const date2 = new Date();
-
 			const form = activity.getUpdateForm();
-			form.changeStartDate(date1);
-			form.changeEndDate(date2);
+			form.changeStartDate(new Date(1));
+			form.changeEndDate(new Date(2));
 			activity.update(form);
 
-			expect(activity.getDuration()).toBe(date2.getTime() - date2.getTime());
+			expect(activity.getDuration()).toBe(1);
 		});
 	});
 });
