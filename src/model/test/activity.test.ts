@@ -12,39 +12,39 @@ describe("Activity", () => {
 	const taxiType = new ActivityType("Taxi", "./", [upgradeOption, radioOption]);
 	const busType = new ActivityType("Bus", "./", [mealOption]);
 	const activityTypeCatalog = new ActivityTypeCatalog([taxiType, busType]);
-	const chamonixPlace = new Location("Chamonix", "Chamonix, in a middle of Europe, middle-eastern paradise, famous for its crowded street markets with the best street food in Asia.", []);
-	const genevaPlace = new Location("Geneva", "Geneva, with crowded streets, with a beautiful old town, middle-eastern paradise, with an embankment of a mighty river as a centre of attraction, a perfect place to stay with a family.", []);
-	const placeCatalog = new LocationCatalog([chamonixPlace, genevaPlace]);
+	const chamonixLocation = new Location("Chamonix", "Chamonix, in a middle of Europe, middle-eastern paradise, famous for its crowded street markets with the best street food in Asia.", []);
+	const genevaLocation = new Location("Geneva", "Geneva, with crowded streets, with a beautiful old town, middle-eastern paradise, with an embankment of a mighty river as a centre of attraction, a perfect place to stay with a family.", []);
+	const locationCatalog = new LocationCatalog([chamonixLocation, genevaLocation]);
 	let activity: Activity;
 
 	beforeEach(() => {
-		activity = new Activity(activityTypeCatalog, placeCatalog);
+		activity = new Activity(activityTypeCatalog, locationCatalog);
 	});
 
 	describe("Name", () => {
 		it("Should have the same default name as provided by the catalog", () => {
-			const defaultTypeName = activityTypeCatalog.getDefaultType().getName();
-			const defaultPlaceName = placeCatalog.getDefaultLocation().getName();
+			const typeName = activityTypeCatalog.getDefaultType().getName();
+			const locationName = locationCatalog.getDefaultLocation().getName();
 
-			expect(activity.getName()).toBe(`${defaultTypeName} ${defaultPlaceName}`);
+			expect(activity.getName()).toBe(`${typeName} ${locationName}`);
 		});
 
 		it("Should change its name when type is changed", () => {
-			const defaultPlaceName = placeCatalog.getDefaultLocation().getName();
+			const locationName = activity.getLocation().getName();
 			const form = activity.getUpdateForm();
 			form.changeType(busType)
 			activity.update(form);
 
-			expect(activity.getName()).toBe(`${busType.getName()} ${defaultPlaceName}`);
+			expect(activity.getName()).toBe(`${busType.getName()} ${locationName}`);
 		});
 
-		it("Should change its name when place is changed", () => {
-			const defaultTypeName = activityTypeCatalog.getDefaultType().getName();
+		it("Should change its name when location is changed", () => {
+			const typeName = activity.getType().getName();
 			const form = activity.getUpdateForm();
-			form.changeLocation(genevaPlace);
+			form.changeLocation(genevaLocation);
 			activity.update(form);
 
-			expect(activity.getName()).toBe(`${defaultTypeName} ${genevaPlace.getName()}`);
+			expect(activity.getName()).toBe(`${typeName} ${genevaLocation.getName()}`);
 		});
 	});
 
