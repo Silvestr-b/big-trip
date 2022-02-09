@@ -48,12 +48,13 @@ describe("Activity", () => {
 		});
 	});
 
-	describe("Total Price", () => {
-		it("Should change its total price when the base price changed", () => {
+	describe("Price", () => {
+		it("Should change its total price when the base price is changed", () => {
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
 			activity.update(form);
 
+			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(100);
 		});
 
@@ -63,10 +64,11 @@ describe("Activity", () => {
 			form.toggleOption(upgradeOption);
 			activity.update(form);
 
+			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(290);
 		});
 
-		it("Should change its total price when an option discarded", () => {
+		it("Should change its total price when an option is deselected", () => {
 			const form1 = activity.getUpdateForm();
 			form1.changePrice(100);
 			form1.toggleOption(upgradeOption);
@@ -76,6 +78,7 @@ describe("Activity", () => {
 			form2.toggleOption(upgradeOption);
 			activity.update(form2);
 
+			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(100);
 		});
 	});
