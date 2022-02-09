@@ -25,38 +25,57 @@ describe("Activity", () => {
 		it("Should have the same default name as provided by the catalog", () => {
 			const defaultTypeName = activityTypeCatalog.getDefaultType().getName();
 			const defaultPlaceName = placeCatalog.getDefaultLocation().getName();
+
 			expect(activity.getName()).toBe(`${defaultTypeName} ${defaultPlaceName}`);
 		});
 
 		it("Should change its name when type is changed", () => {
 			const defaultPlaceName = placeCatalog.getDefaultLocation().getName();
-			activity.changeType(busType);
+			const form = activity.getUpdateForm();
+			form.changeType(busType)
+			activity.update(form);
+
 			expect(activity.getName()).toBe(`${busType.getName()} ${defaultPlaceName}`);
 		});
 
 		it("Should change its name when place is changed", () => {
 			const defaultTypeName = activityTypeCatalog.getDefaultType().getName();
-			activity.setLocation(genevaPlace);
+			const form = activity.getUpdateForm();
+			form.changeLocation(genevaPlace);
+			activity.update(form);
+
 			expect(activity.getName()).toBe(`${defaultTypeName} ${genevaPlace.getName()}`);
 		});
 	});
 
 	describe("Total Price", () => {
 		it("Should change its total price when the base price changed", () => {
-			activity.setBasePrice(100);
+			const form = activity.getUpdateForm();
+			form.changePrice(100);
+			activity.update(form);
+
 			expect(activity.getTotalPrice()).toBe(100);
 		});
 
 		it("Should change its total price when an option is selected", () => {
-			activity.setBasePrice(100);
-			activity.toggleOption(upgradeOption);
+			const form = activity.getUpdateForm();
+			form.changePrice(100);
+			form.toggleOption(upgradeOption);
+			activity.update(form);
+
 			expect(activity.getTotalPrice()).toBe(290);
 		});
 
 		it("Should change its total price when an option discarded", () => {
-			activity.setBasePrice(100);
-			activity.toggleOption(upgradeOption);
-			activity.toggleOption(upgradeOption);
+			const form1 = activity.getUpdateForm();
+			form1.changePrice(100);
+			form1.toggleOption(upgradeOption);
+			activity.update(form1);
+
+			const form2 = activity.getUpdateForm();
+			form2.toggleOption(upgradeOption);
+			activity.update(form2);
+
 			expect(activity.getTotalPrice()).toBe(100);
 		});
 	});
@@ -67,13 +86,22 @@ describe("Activity", () => {
 		});
 
 		it("Should be favorite if toggle", () => {
-			activity.toggleFavorite();
+			const form = activity.getUpdateForm();
+			form.toggleFavorite();
+			activity.update(form);
+
 			expect(activity.isFavorite()).toBe(true);
 		});
 
 		it("Should not be favorite if toggle back", () => {
-			activity.toggleFavorite();
-			activity.toggleFavorite();
+			const form1 = activity.getUpdateForm();
+			form1.toggleFavorite();
+			activity.update(form1);
+
+			const form2 = activity.getUpdateForm();
+			form2.toggleFavorite();
+			activity.update(form2);
+
 			expect(activity.isFavorite()).toBe(false);
 		});
 	});
@@ -84,28 +112,47 @@ describe("Activity", () => {
 		});
 
 		it("Should add options when selected", () => {
-			activity.toggleOption(upgradeOption);
-			activity.toggleOption(radioOption);
+			const form = activity.getUpdateForm();
+			form.toggleOption(upgradeOption);
+			form.toggleOption(radioOption);
+			activity.update(form);
+
 			expect(activity.isOptionSelected(upgradeOption)).toBe(true);
 			expect(activity.isOptionSelected(radioOption)).toBe(true);
 		});
 
 		it("Should remove options when deselected", () => {
-			activity.toggleOption(upgradeOption);
-			activity.toggleOption(upgradeOption);
+			const form1 = activity.getUpdateForm();
+			form1.toggleOption(upgradeOption);
+			activity.update(form1);
+
+			const form2 = activity.getUpdateForm();
+			form2.toggleOption(upgradeOption);
+			activity.update(form2);
+
 			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
 		});
 
+		// TODO: Add exceptions
 		it("Should add only allowed options", () => {
-			activity.changeType(taxiType);
-			activity.toggleOption(mealOption);
+			const form = activity.getUpdateForm();
+			form.changeType(taxiType);
+			form.toggleOption(mealOption);
+			activity.update(form);
+
 			expect(activity.isOptionSelected(mealOption)).toBe(false);
 		});
 
 		it("Should deselect all options when the type is changed", () => {
-			activity.toggleOption(upgradeOption);
-			activity.toggleOption(radioOption);
-			activity.changeType(busType);
+			const form1 = activity.getUpdateForm();
+			form1.toggleOption(upgradeOption);
+			form1.toggleOption(radioOption);
+			activity.update(form1);
+
+			const form2 = activity.getUpdateForm();
+			form2.changeType(busType);
+			activity.update(form2);
+
 			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
 			expect(activity.isOptionSelected(radioOption)).toBe(false);
 		});
@@ -115,8 +162,12 @@ describe("Activity", () => {
 		it("Should calculate the duration", () => {
 			const date1 = new Date();
 			const date2 = new Date();
-			activity.setStartDate(date1);
-			activity.setEndDate(date2);
+
+			const form = activity.getUpdateForm();
+			form.changeStartDate(date1);
+			form.changeEndDate(date2);
+			activity.update(form);
+
 			expect(activity.getDuration()).toBe(date2.getTime() - date2.getTime());
 		});
 	});

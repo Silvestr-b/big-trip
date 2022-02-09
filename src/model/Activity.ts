@@ -4,9 +4,10 @@ import {LocationCatalog} from "./LocationCatalog";
 import {ActivityType} from "./ActivityType";
 import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
 import {AdditionalOption} from "./AdditionalOption";
+import {ActivityUpdateForm} from "./ActivityUpdateForm";
 
 export class Activity {
-	private readonly selectedOptions: Set<AdditionalOption>;
+	private selectedOptions: Set<AdditionalOption>;
 	private type: ActivityType;
 	private location: Location;
 	private startDate: Date;
@@ -76,39 +77,25 @@ export class Activity {
 
 	// Commands
 
-	public setBasePrice(price: number) {
-		this.basePrice = price;
+	public update(form: ActivityUpdateForm) {
+		this.selectedOptions = new Set(form.getSelectedOptions());
+		this.type = form.getType();
+		this.location = form.getLocation();
+		this.startDate = form.getStartDate();
+		this.endDate = form.getEndDate();
+		this.basePrice = form.getPrice();
+		this.favorite = form.isFavorite();
 	}
 
-	public setStartDate(date: Date) {
-		this.startDate = date;
-	}
-
-	public setEndDate(date: Date) {
-		this.endDate = date;
-	}
-
-	public setLocation(location: Location) {
-		this.location = location;
-	}
-
-	public toggleFavorite() {
-		this.favorite = !this.favorite;
-	}
-
-	public toggleOption(option: AdditionalOption) {
-		if (!this.type.isOptionAcceptable(option)) {
-			return;
-		}
-		if (this.selectedOptions.has(option)) {
-			this.selectedOptions.delete(option);
-		} else {
-			this.selectedOptions.add(option);
-		}
-	}
-
-	public changeType(type: ActivityType) {
-		this.type = type;
-		this.selectedOptions.clear();
+	public getUpdateForm() {
+		return new ActivityUpdateForm(
+			this.selectedOptions,
+			this.type,
+			this.location,
+			this.startDate,
+			this.endDate,
+			this.basePrice,
+			this.favorite
+		);
 	}
 }
