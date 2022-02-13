@@ -2,6 +2,7 @@ import {Activity} from "../Activity";
 import {OptionMother} from "./fixtures/OptionMother";
 import {TypeMother} from "./fixtures/TypeMother";
 import {LocationMother} from "./fixtures/LocationMother";
+import {IllegalOptionException} from "../errors/IllegalOptionException";
 
 describe("Activity", () => {
 	const upgrade = OptionMother.createUpgrade();
@@ -134,14 +135,14 @@ describe("Activity", () => {
 			expect(activity.isOptionSelected(upgrade)).toBe(false);
 		});
 
-		// TODO: Add exceptions
 		it("Should add only allowed options", () => {
-			const form = activity.getUpdateForm();
-			form.changeType(taxi);
-			form.toggleOption(meal);
-			activity.apply(form);
+			const run = () => {
+				const form = activity.getUpdateForm();
+				form.changeType(taxi);
+				form.toggleOption(meal);
+			}
 
-			expect(activity.isOptionSelected(meal)).toBe(false);
+			expect(run).toThrow(IllegalOptionException);
 		});
 
 		it("Should deselect all options when the type is changed", () => {

@@ -1,6 +1,7 @@
 import {ActivityType} from "./ActivityType";
 import {AdditionalOption} from "./AdditionalOption";
 import {Location} from "./Location";
+import {IllegalOptionException} from "./errors/IllegalOptionException";
 
 export class ActivityUpdateForm {
 	constructor(
@@ -68,7 +69,7 @@ export class ActivityUpdateForm {
 
 	public toggleOption(option: AdditionalOption) {
 		if (!this.type.isOptionAcceptable(option)) {
-			return;
+			throw new IllegalOptionException();
 		}
 		if (this.selectedOptions.has(option)) {
 			this.selectedOptions.delete(option);
