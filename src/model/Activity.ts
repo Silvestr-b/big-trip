@@ -77,7 +77,7 @@ export class Activity {
 
 	// Commands
 
-	public update(form: ActivityUpdateForm) {
+	public apply(form: ActivityUpdateForm) {
 		this.selectedOptions = new Set(form.getSelectedOptions());
 		this.type = form.getType();
 		this.location = form.getLocation();

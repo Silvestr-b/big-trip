@@ -31,7 +31,7 @@ describe("Activity", () => {
 			const locationName = activity.getLocation().getName();
 			const form = activity.getUpdateForm();
 			form.changeType(bus)
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.getName()).toBe(`${bus.getName()} ${locationName}`);
 		});
@@ -40,7 +40,7 @@ describe("Activity", () => {
 			const typeName = activity.getType().getName();
 			const form = activity.getUpdateForm();
 			form.changeLocation(geneva);
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.getName()).toBe(`${typeName} ${geneva.getName()}`);
 		});
@@ -50,7 +50,7 @@ describe("Activity", () => {
 		it("Should change its total price when the base price is changed", () => {
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(100);
@@ -60,7 +60,7 @@ describe("Activity", () => {
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
 			form.toggleOption(upgrade);
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(290);
@@ -70,11 +70,11 @@ describe("Activity", () => {
 			const form1 = activity.getUpdateForm();
 			form1.changePrice(100);
 			form1.toggleOption(upgrade);
-			activity.update(form1);
+			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
 			form2.toggleOption(upgrade);
-			activity.update(form2);
+			activity.apply(form2);
 
 			expect(activity.getBasePrice()).toBe(100);
 			expect(activity.getTotalPrice()).toBe(100);
@@ -89,7 +89,7 @@ describe("Activity", () => {
 		it("Should be favorite if toggle", () => {
 			const form = activity.getUpdateForm();
 			form.toggleFavorite();
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.isFavorite()).toBe(true);
 		});
@@ -97,11 +97,11 @@ describe("Activity", () => {
 		it("Should not be favorite if toggle back", () => {
 			const form1 = activity.getUpdateForm();
 			form1.toggleFavorite();
-			activity.update(form1);
+			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
 			form2.toggleFavorite();
-			activity.update(form2);
+			activity.apply(form2);
 
 			expect(activity.isFavorite()).toBe(false);
 		});
@@ -116,7 +116,7 @@ describe("Activity", () => {
 			const form = activity.getUpdateForm();
 			form.toggleOption(upgrade);
 			form.toggleOption(radio);
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.isOptionSelected(upgrade)).toBe(true);
 			expect(activity.isOptionSelected(radio)).toBe(true);
@@ -125,11 +125,11 @@ describe("Activity", () => {
 		it("Should remove options when deselected", () => {
 			const form1 = activity.getUpdateForm();
 			form1.toggleOption(upgrade);
-			activity.update(form1);
+			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
 			form2.toggleOption(upgrade);
-			activity.update(form2);
+			activity.apply(form2);
 
 			expect(activity.isOptionSelected(upgrade)).toBe(false);
 		});
@@ -139,7 +139,7 @@ describe("Activity", () => {
 			const form = activity.getUpdateForm();
 			form.changeType(taxi);
 			form.toggleOption(meal);
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.isOptionSelected(meal)).toBe(false);
 		});
@@ -148,11 +148,11 @@ describe("Activity", () => {
 			const form1 = activity.getUpdateForm();
 			form1.toggleOption(upgrade);
 			form1.toggleOption(radio);
-			activity.update(form1);
+			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
 			form2.changeType(bus);
-			activity.update(form2);
+			activity.apply(form2);
 
 			expect(activity.isOptionSelected(upgrade)).toBe(false);
 			expect(activity.isOptionSelected(radio)).toBe(false);
@@ -164,7 +164,7 @@ describe("Activity", () => {
 			const form = activity.getUpdateForm();
 			form.changeStartDate(new Date(1));
 			form.changeEndDate(new Date(2));
-			activity.update(form);
+			activity.apply(form);
 
 			expect(activity.getDuration()).toBe(1);
 		});
