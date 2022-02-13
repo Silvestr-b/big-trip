@@ -1,30 +1,28 @@
-import {LocationCatalog} from "../LocationCatalog";
-import {ActivityTypeCatalog} from "../ActivityTypeCatalog";
 import {Activity} from "../Activity";
-import {ActivityType} from "../ActivityType";
-import {AdditionalOption} from "../AdditionalOption";
-import {Location} from "../Location";
+import {OptionMother} from "./fixtures/OptionMother";
+import {TypeMother} from "./fixtures/TypeMother";
+import {LocationMother} from "./fixtures/LocationMother";
 
 describe("Activity", () => {
-	const upgradeOption = new AdditionalOption("Upgrade", "Upgrade to business class", 190);
-	const radioOption = new AdditionalOption("RadioStation", "Choose the radio station", 30);
-	const mealOption = new AdditionalOption("OrderMeal", "Order Meal", 100);
-	const taxiType = new ActivityType("Taxi", "./", [upgradeOption, radioOption]);
-	const busType = new ActivityType("Bus", "./", [mealOption]);
-	const activityTypeCatalog = new ActivityTypeCatalog([taxiType, busType]);
-	const chamonixLocation = new Location("Chamonix", "Chamonix, in a middle of Europe, middle-eastern paradise, famous for its crowded street markets with the best street food in Asia.", []);
-	const genevaLocation = new Location("Geneva", "Geneva, with crowded streets, with a beautiful old town, middle-eastern paradise, with an embankment of a mighty river as a centre of attraction, a perfect place to stay with a family.", []);
-	const locationCatalog = new LocationCatalog([chamonixLocation, genevaLocation]);
+	const upgrade = OptionMother.createUpgrade();
+	const radio = OptionMother.createRadio();
+	const meal = OptionMother.createMeal();
+	const taxi = TypeMother.createTaxi([upgrade, radio]);
+	const bus = TypeMother.createBus([meal]);
+	const types = TypeMother.createCatalog([taxi, bus]);
+	const chamonix = LocationMother.createChamonix();
+	const geneva = LocationMother.createGeneva();
+	const locations = LocationMother.createCatalog([chamonix, geneva]);
 	let activity: Activity;
 
 	beforeEach(() => {
-		activity = new Activity(activityTypeCatalog, locationCatalog);
+		activity = new Activity(types, locations);
 	});
 
 	describe("Name", () => {
 		it("Should have the same default name as provided by the catalog", () => {
-			const typeName = activityTypeCatalog.getDefaultType().getName();
-			const locationName = locationCatalog.getDefaultLocation().getName();
+			const typeName = types.getDefaultType().getName();
+			const locationName = locations.getDefaultLocation().getName();
 
 			expect(activity.getName()).toBe(`${typeName} ${locationName}`);
 		});
@@ -32,19 +30,19 @@ describe("Activity", () => {
 		it("Should change its name when type is changed", () => {
 			const locationName = activity.getLocation().getName();
 			const form = activity.getUpdateForm();
-			form.changeType(busType)
+			form.changeType(bus)
 			activity.update(form);
 
-			expect(activity.getName()).toBe(`${busType.getName()} ${locationName}`);
+			expect(activity.getName()).toBe(`${bus.getName()} ${locationName}`);
 		});
 
 		it("Should change its name when location is changed", () => {
 			const typeName = activity.getType().getName();
 			const form = activity.getUpdateForm();
-			form.changeLocation(genevaLocation);
+			form.changeLocation(geneva);
 			activity.update(form);
 
-			expect(activity.getName()).toBe(`${typeName} ${genevaLocation.getName()}`);
+			expect(activity.getName()).toBe(`${typeName} ${geneva.getName()}`);
 		});
 	});
 
@@ -61,7 +59,7 @@ describe("Activity", () => {
 		it("Should change its total price when an option is selected", () => {
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
-			form.toggleOption(upgradeOption);
+			form.toggleOption(upgrade);
 			activity.update(form);
 
 			expect(activity.getBasePrice()).toBe(100);
@@ -71,11 +69,11 @@ describe("Activity", () => {
 		it("Should change its total price when an option is deselected", () => {
 			const form1 = activity.getUpdateForm();
 			form1.changePrice(100);
-			form1.toggleOption(upgradeOption);
+			form1.toggleOption(upgrade);
 			activity.update(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.toggleOption(upgradeOption);
+			form2.toggleOption(upgrade);
 			activity.update(form2);
 
 			expect(activity.getBasePrice()).toBe(100);
@@ -116,48 +114,48 @@ describe("Activity", () => {
 
 		it("Should add options when selected", () => {
 			const form = activity.getUpdateForm();
-			form.toggleOption(upgradeOption);
-			form.toggleOption(radioOption);
+			form.toggleOption(upgrade);
+			form.toggleOption(radio);
 			activity.update(form);
 
-			expect(activity.isOptionSelected(upgradeOption)).toBe(true);
-			expect(activity.isOptionSelected(radioOption)).toBe(true);
+			expect(activity.isOptionSelected(upgrade)).toBe(true);
+			expect(activity.isOptionSelected(radio)).toBe(true);
 		});
 
 		it("Should remove options when deselected", () => {
 			const form1 = activity.getUpdateForm();
-			form1.toggleOption(upgradeOption);
+			form1.toggleOption(upgrade);
 			activity.update(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.toggleOption(upgradeOption);
+			form2.toggleOption(upgrade);
 			activity.update(form2);
 
-			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
+			expect(activity.isOptionSelected(upgrade)).toBe(false);
 		});
 
 		// TODO: Add exceptions
 		it("Should add only allowed options", () => {
 			const form = activity.getUpdateForm();
-			form.changeType(taxiType);
-			form.toggleOption(mealOption);
+			form.changeType(taxi);
+			form.toggleOption(meal);
 			activity.update(form);
 
-			expect(activity.isOptionSelected(mealOption)).toBe(false);
+			expect(activity.isOptionSelected(meal)).toBe(false);
 		});
 
 		it("Should deselect all options when the type is changed", () => {
 			const form1 = activity.getUpdateForm();
-			form1.toggleOption(upgradeOption);
-			form1.toggleOption(radioOption);
+			form1.toggleOption(upgrade);
+			form1.toggleOption(radio);
 			activity.update(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.changeType(busType);
+			form2.changeType(bus);
 			activity.update(form2);
 
-			expect(activity.isOptionSelected(upgradeOption)).toBe(false);
-			expect(activity.isOptionSelected(radioOption)).toBe(false);
+			expect(activity.isOptionSelected(upgrade)).toBe(false);
+			expect(activity.isOptionSelected(radio)).toBe(false);
 		});
 	});
 
