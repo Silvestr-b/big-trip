@@ -30,11 +30,14 @@ export class Itinerary {
 	}
 
 	public getTotalCost() {
-
+		return this.activities
+			.reduce((prevValue, currActivity) => prevValue + currActivity.getTotalPrice(), 0);
 	}
 
 	public getTotalCostFor(activityType: ActivityType) {
-
+		return this.activities
+			.filter(activity => activity.getType() === activityType)
+			.reduce((prevValue, currActivity) => prevValue + currActivity.getTotalPrice(), 0);
 	}
 
 	public getTotalNumberOf(activityType: ActivityType) {

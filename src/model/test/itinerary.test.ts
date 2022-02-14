@@ -144,8 +144,93 @@ describe("Itinerary", () => {
 		});
 	});
 
-	describe("Stats", () => {
+	describe("Total Cost", () => {
+		it("Should return 0 total cost when empty", () => {
+			expect(itinerary.getTotalCost()).toBe(0);
+		});
 
+		it("Should return cost of a single activity", () => {
+			const activity = new Activity(types, places);
+			const form = activity.getUpdateForm();
+			form.changePrice(100);
+			activity.apply(form);
+
+			itinerary.addActivity(activity);
+
+			expect(itinerary.getTotalCost()).toBe(100);
+		});
+
+		it("Should return total cost of all activities added", () => {
+			const activity1 = new Activity(types, places);
+			const form1 = activity1.getUpdateForm();
+			form1.changePrice(100);
+			activity1.apply(form1);
+
+			const activity2 = new Activity(types, places);
+			const form2 = activity2.getUpdateForm();
+			form2.changePrice(200);
+			activity2.apply(form2);
+
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+
+			expect(itinerary.getTotalCost()).toBe(300);
+		});
+
+		it("Should return total cost of only remaining activities", () => {
+			const activity1 = new Activity(types, places);
+			const form1 = activity1.getUpdateForm();
+			form1.changePrice(100);
+			activity1.apply(form1);
+
+			const activity2 = new Activity(types, places);
+			const form2 = activity2.getUpdateForm();
+			form2.changePrice(200);
+			activity2.apply(form2);
+
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+			itinerary.removeActivity(activity1);
+
+			expect(itinerary.getTotalCost()).toBe(200);
+		});
+
+		it("Should return 0 cost if there is no activity of the specified type", () => {
+			const activity1 = new Activity(types, places);
+			const form1 = activity1.getUpdateForm();
+			form1.changeType(taxi);
+			activity1.apply(form1);
+
+			const activity2 = new Activity(types, places);
+			const form2 = activity2.getUpdateForm();
+			form2.changeType(taxi);
+			activity2.apply(form2);
+
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+
+			expect(itinerary.getTotalCostFor(bus)).toBe(0);
+		});
+
+		it("Should return the total cost for all the activities of the specified type", () => {
+			const activity1 = new Activity(types, places);
+			const form1 = activity1.getUpdateForm();
+			form1.changeType(taxi);
+			form1.changePrice(100);
+			activity1.apply(form1);
+
+			const activity2 = new Activity(types, places);
+			const form2 = activity2.getUpdateForm();
+			form2.changeType(bus);
+			form2.changePrice(200);
+			activity2.apply(form2);
+
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+
+			expect(itinerary.getTotalCostFor(taxi)).toBe(100);
+			expect(itinerary.getTotalCostFor(bus)).toBe(200);
+		});
 	});
 
 	describe("Sorting", () => {
