@@ -4,10 +4,10 @@ import {UnknownActivityError} from "./errors/UnknownActivityError";
 import {EmptyItineraryError} from "./errors/EmptyItineraryError";
 
 export class Itinerary {
-	private readonly activities: Set<Activity>;
+	private activities: Activity[];
 
 	constructor() {
-		this.activities = new Set();
+		this.activities = [];
 	}
 
 	// Queries
@@ -53,11 +53,11 @@ export class Itinerary {
 	}
 
 	public getAllActivities() {
-		return Array.from(this.activities);
+		return this.activities;
 	}
 
 	public isEmpty() {
-		return this.activities.size === 0;
+		return this.activities.length === 0;
 	}
 
 	// Commands
@@ -79,28 +79,30 @@ export class Itinerary {
 	}
 
 	public addActivity(activity: Activity) {
-		this.activities.add(activity);
+		if (this.hasActivity(activity)) {
+			return;
+		}
+		this.activities.push(activity);
 	}
 
-	public removeActivity(activity: Activity) {
-		if (!this.hasActivity(activity)) {
+	public removeActivity(activityToRemove: Activity) {
+		if (!this.hasActivity(activityToRemove)) {
 			throw new UnknownActivityError();
 		}
-		this.activities.delete(activity);
+		this.activities = this.activities.filter(activity => activity !== activityToRemove);
 	}
 
 
 	private hasActivity(activity: Activity) {
-		return this.activities.has(activity);
+		return this.activities.includes(activity);
 	}
 
 	private getFirstActivity() {
 		if (this.isEmpty()) {
 			throw new EmptyItineraryError();
 		}
-		const activities = Array.from(this.activities);
-		let firstActivity = activities[0];
-		for (const activity of activities) {
+		let firstActivity = this.activities[0];
+		for (const activity of this.activities) {
 			if (activity.getStartDate() < firstActivity.getStartDate()) {
 				firstActivity = activity;
 			}
@@ -112,9 +114,8 @@ export class Itinerary {
 		if (this.isEmpty()) {
 			throw new EmptyItineraryError();
 		}
-		const activities = Array.from(this.activities);
-		let lastActivity = activities[0];
-		for (const activity of activities) {
+		let lastActivity = this.activities[0];
+		for (const activity of this.activities) {
 			if (activity.getEndDate() > lastActivity.getEndDate()) {
 				lastActivity = activity;
 			}

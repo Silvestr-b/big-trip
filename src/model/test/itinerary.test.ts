@@ -78,14 +78,20 @@ describe("Itinerary", () => {
 
 		it("Should return location names in chronological order", () => {
 			const firstActivity = new Activity(types, places);
+			const form1 = firstActivity.getUpdateForm();
+			form1.changeLocation(chamonix);
+			firstActivity.apply(form1);
+
 			const lastActivity = new Activity(types, places);
-			const firstLocationName = firstActivity.getLocation().getName();
-			const lastLocationName = lastActivity.getLocation().getName();
+			const form2 = lastActivity.getUpdateForm();
+			form2.changeLocation(geneva);
+			lastActivity.apply(form2);
+
 			itinerary.addActivity(firstActivity);
 			itinerary.addActivity(lastActivity);
 
-			expect(itinerary.getFirstLocationName()).toBe(firstLocationName);
-			expect(itinerary.getLastLocationName()).toBe(lastLocationName);
+			expect(itinerary.getFirstLocationName()).toBe(chamonix.getName());
+			expect(itinerary.getLastLocationName()).toBe(geneva.getName());
 		});
 	});
 
