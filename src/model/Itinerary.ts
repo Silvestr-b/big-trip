@@ -80,16 +80,12 @@ export class Itinerary {
 	}
 
 	public addActivity(activity: Activity) {
-		if (this.hasActivity(activity)) {
-			throw new ActivityAlreadyAddedException();
-		}
+		this.assertNotAddedYet(activity);
 		this.activities.push(activity);
 	}
 
 	public removeActivity(activityToRemove: Activity) {
-		if (!this.hasActivity(activityToRemove)) {
-			throw new UnknownActivityError();
-		}
+		this.assertExists(activityToRemove);
 		this.activities = this.activities.filter(activity => activity !== activityToRemove);
 	}
 
@@ -99,28 +95,30 @@ export class Itinerary {
 	}
 
 	private getFirstActivity() {
-		if (this.isEmpty()) {
-			throw new EmptyItineraryError();
-		}
-		let firstActivity = this.activities[0];
-		for (const activity of this.activities) {
-			if (activity.getStartDate() < firstActivity.getStartDate()) {
-				firstActivity = activity;
-			}
-		}
-		return firstActivity;
+		this.assertNotEmpty();
+		return this.activities.reduce((prev, curr) => prev.getStartDate() < curr.getStartDate() ? prev : curr);
 	}
 
 	private getLastActivity() {
+		this.assertNotEmpty();
+		return this.activities.reduce((prev, curr) => prev.getEndDate() > curr.getEndDate() ? prev : curr);
+	}
+
+	private assertNotEmpty() {
 		if (this.isEmpty()) {
 			throw new EmptyItineraryError();
 		}
-		let lastActivity = this.activities[0];
-		for (const activity of this.activities) {
-			if (activity.getEndDate() > lastActivity.getEndDate()) {
-				lastActivity = activity;
-			}
+	}
+
+	private assertExists(activity: Activity) {
+		if (!this.hasActivity(activity)) {
+			throw new UnknownActivityError();
 		}
-		return lastActivity;
+	}
+
+	private assertNotAddedYet(activity: Activity) {
+		if (this.hasActivity(activity)) {
+			throw new ActivityAlreadyAddedException();
+		}
 	}
 }

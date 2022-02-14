@@ -68,9 +68,7 @@ export class ActivityUpdateForm {
 	}
 
 	public toggleOption(option: AdditionalOption) {
-		if (!this.type.isOptionAcceptable(option)) {
-			throw new IllegalOptionException();
-		}
+		this.assertOptionIsAcceptable(option);
 		if (this.selectedOptions.has(option)) {
 			this.selectedOptions.delete(option);
 		} else {
@@ -80,5 +78,11 @@ export class ActivityUpdateForm {
 
 	public toggleFavorite() {
 		this.favorite = !this.favorite;
+	}
+
+	private assertOptionIsAcceptable(option: AdditionalOption) {
+		if (!this.type.isOptionAcceptable(option)) {
+			throw new IllegalOptionException();
+		}
 	}
 }
