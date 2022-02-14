@@ -149,7 +149,7 @@ describe("Itinerary", () => {
 			expect(itinerary.getTotalCost()).toBe(0);
 		});
 
-		it("Should return cost of a single activity", () => {
+		it("Should return the total cost of a single activity if only one added", () => {
 			const activity = new Activity(types, places);
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
@@ -160,7 +160,7 @@ describe("Itinerary", () => {
 			expect(itinerary.getTotalCost()).toBe(100);
 		});
 
-		it("Should return total cost of all activities added", () => {
+		it("Should return the total cost of all activities added", () => {
 			const activity1 = new Activity(types, places);
 			const form1 = activity1.getUpdateForm();
 			form1.changePrice(100);
@@ -177,7 +177,7 @@ describe("Itinerary", () => {
 			expect(itinerary.getTotalCost()).toBe(300);
 		});
 
-		it("Should return total cost of only remaining activities", () => {
+		it("Should return the total cost of the remaining activities only", () => {
 			const activity1 = new Activity(types, places);
 			const form1 = activity1.getUpdateForm();
 			form1.changePrice(100);
