@@ -5,6 +5,7 @@ import {EmptyItineraryError} from "../errors/EmptyItineraryError";
 import {OptionMother} from "./fixtures/OptionMother";
 import {TypeMother} from "./fixtures/TypeMother";
 import {LocationMother} from "./fixtures/LocationMother";
+import {ActivityAlreadyAddedException} from "../errors/ActivityAlreadyAddedException";
 
 describe("Itinerary", () => {
 	const upgrade = OptionMother.createUpgrade();
@@ -35,11 +36,13 @@ describe("Itinerary", () => {
 		});
 
 		it("Should not add an activity if it's already added", () => {
-			const activity = new Activity(types, places);
-			itinerary.addActivity(activity);
-			itinerary.addActivity(activity);
+			const run = () => {
+				const activity = new Activity(types, places);
+				itinerary.addActivity(activity);
+				itinerary.addActivity(activity);
+			}
 
-			expect(itinerary.getAllActivities()).toEqual([activity]);
+			expect(run).toThrow(ActivityAlreadyAddedException);
 		});
 
 		it("Should remove an activity", () => {
@@ -79,12 +82,16 @@ describe("Itinerary", () => {
 		it("Should return location names in chronological order", () => {
 			const firstActivity = new Activity(types, places);
 			const form1 = firstActivity.getUpdateForm();
+			form1.changeStartDate(new Date(1));
+			form1.changeEndDate(new Date(2));
 			form1.changeLocation(chamonix);
 			firstActivity.apply(form1);
 
 			const lastActivity = new Activity(types, places);
 			const form2 = lastActivity.getUpdateForm();
 			form2.changeLocation(geneva);
+			form2.changeStartDate(new Date(3));
+			form2.changeEndDate(new Date(4));
 			lastActivity.apply(form2);
 
 			itinerary.addActivity(firstActivity);

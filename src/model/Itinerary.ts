@@ -2,6 +2,7 @@ import {Activity} from "./Activity";
 import {ActivityType} from "./ActivityType";
 import {UnknownActivityError} from "./errors/UnknownActivityError";
 import {EmptyItineraryError} from "./errors/EmptyItineraryError";
+import {ActivityAlreadyAddedException} from "./errors/ActivityAlreadyAddedException";
 
 export class Itinerary {
 	private activities: Activity[];
@@ -80,7 +81,7 @@ export class Itinerary {
 
 	public addActivity(activity: Activity) {
 		if (this.hasActivity(activity)) {
-			return;
+			throw new ActivityAlreadyAddedException();
 		}
 		this.activities.push(activity);
 	}
