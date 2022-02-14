@@ -22,11 +22,11 @@ export class Itinerary {
 	}
 
 	public getFirstLocationName() {
-		return this.getFirstActivity().getLocation().getName();
+		return this.getFirstActivity().getLocationName();
 	}
 
 	public getLastLocationName() {
-		return this.getLastActivity().getLocation().getName();
+		return this.getLastActivity().getLocationName();
 	}
 
 	public getTotalCost() {

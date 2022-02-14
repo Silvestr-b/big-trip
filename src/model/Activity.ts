@@ -43,6 +43,10 @@ export class Activity {
 		return this.location;
 	}
 
+	public getLocationName() {
+		return this.location.getName();
+	}
+
 	public getStartDate() {
 		return this.startDate;
 	}

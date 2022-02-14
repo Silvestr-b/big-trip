@@ -72,7 +72,7 @@ describe("Itinerary", () => {
 
 		it("Should return the same location name as the first and the last when only one activity added", () => {
 			const activity = new Activity(types, places);
-			const expectedLocationName = activity.getLocation().getName();
+			const expectedLocationName = activity.getLocationName();
 			itinerary.addActivity(activity);
 
 			expect(itinerary.getFirstLocationName()).toBe(expectedLocationName);
