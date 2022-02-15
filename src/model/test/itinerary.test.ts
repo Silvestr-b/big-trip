@@ -326,11 +326,33 @@ describe("Itinerary", () => {
 			itinerary.addActivity(pastActivity);
 			itinerary.addActivity(futureActivity);
 
-			expect(itinerary.getFutureActivities()).toEqual([futureActivity])
+			expect(itinerary.getFutureActivities()).toEqual([futureActivity]);
 		});
 
-		// it("Should return an empty array when there are no past activities");
-		// it("Should return a list of past activities when there are past activities");
+		it("Should return an empty array when there are no past activities", () => {
+			expect(itinerary.getPastActivities()).toEqual([]);
+		});
+
+		it("Should return a list of past activities when there are past activities", () => {
+			const pastActivity = new Activity(types, places);
+			const form1 = pastActivity.getUpdateForm();
+			form1.changeType(taxi);
+			form1.changeStartDate(new Date(1));
+			form1.changeEndDate(new Date(2));
+			pastActivity.apply(form1);
+
+			const futureActivity = new Activity(types, places);
+			const form2 = futureActivity.getUpdateForm();
+			form2.changeType(taxi);
+			form2.changeStartDate(new Date(new Date().getTime() + 1000));
+			form2.changeEndDate(new Date(new Date().getTime() + 2000));
+			futureActivity.apply(form2);
+
+			itinerary.addActivity(pastActivity);
+			itinerary.addActivity(futureActivity);
+
+			expect(itinerary.getPastActivities()).toEqual([pastActivity]);
+		});
 	});
 
 	describe("Sorting", () => {

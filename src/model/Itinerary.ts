@@ -72,7 +72,14 @@ export class Itinerary {
 	}
 
 	public getPastActivities() {
-
+		const now = new Date();
+		const result = [];
+		for (const activity of this.activities) {
+			if (activity.getEndDate() < now) {
+				result.push(activity);
+			}
+		}
+		return result;
 	}
 
 	public getAllActivities() {
