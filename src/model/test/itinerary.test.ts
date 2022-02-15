@@ -232,11 +232,11 @@ describe("Itinerary", () => {
 			expect(itinerary.getTotalCostFor(bus)).toBe(200);
 		});
 
-		it("Should return 0 number of activities of specified type when empty", () => {
-			expect(itinerary.getTotalNumberOf(bus)).toBe(0);
+		it("Should return 0 as the number of activities of the specified type when empty", () => {
+			expect(itinerary.getTotalNumberOf(taxi)).toBe(0);
 		});
 
-		it("Should return 0 number of activities of specified type when no activities of such type added", () => {
+		it("Should return 0 as the number of activities of the specified type when no activities of such type added", () => {
 			const activity = new Activity(types, places);
 			const form = activity.getUpdateForm();
 			form.changeType(taxi);
@@ -247,7 +247,7 @@ describe("Itinerary", () => {
 			expect(itinerary.getTotalNumberOf(bus)).toBe(0);
 		});
 
-		it("Should return total number of activities of specified type when added", () => {
+		it("Should return the total number of activities of the specified type when added", () => {
 			const activity = new Activity(types, places);
 			const form = activity.getUpdateForm();
 			form.changeType(taxi);
@@ -256,6 +256,50 @@ describe("Itinerary", () => {
 			itinerary.addActivity(activity);
 
 			expect(itinerary.getTotalNumberOf(taxi)).toBe(1);
+		});
+
+		it("Should return 0 as the duration of activities of the specified type when empty", () => {
+			expect(itinerary.getTotalDurationOf(taxi)).toBe(0);
+		});
+
+		it("Should return 0 as the duration of activities of the specified type when no activities of such type added", () => {
+			const activity = new Activity(types, places);
+			const form = activity.getUpdateForm();
+			form.changeType(taxi);
+			activity.apply(form);
+
+			itinerary.addActivity(activity);
+
+			expect(itinerary.getTotalDurationOf(bus)).toBe(0);
+		});
+
+		it("Should return total the duration of activities of the specified type when added", () => {
+			const activity1 = new Activity(types, places);
+			const form1 = activity1.getUpdateForm();
+			form1.changeType(taxi);
+			form1.changeStartDate(new Date(1));
+			form1.changeEndDate(new Date(2));
+			activity1.apply(form1);
+
+			const activity2 = new Activity(types, places);
+			const form2 = activity2.getUpdateForm();
+			form2.changeType(taxi);
+			form2.changeStartDate(new Date(3));
+			form2.changeEndDate(new Date(4));
+			activity2.apply(form2);
+
+			const activity3 = new Activity(types, places);
+			const form3 = activity3.getUpdateForm();
+			form3.changeType(bus);
+			form3.changeStartDate(new Date(5));
+			form3.changeEndDate(new Date(6));
+			activity3.apply(form3);
+
+			itinerary.addActivity(activity1);
+			itinerary.addActivity(activity2);
+			itinerary.addActivity(activity3);
+
+			expect(itinerary.getTotalDurationOf(taxi)).toBe(2);
 		});
 	});
 

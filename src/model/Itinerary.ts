@@ -51,7 +51,13 @@ export class Itinerary {
 	}
 
 	public getTotalDurationOf(activityType: ActivityType) {
-
+		let count = 0;
+		for (const activity of this.activities) {
+			if (activity.getType() === activityType) {
+				count += activity.getDuration();
+			}
+		}
+		return count;
 	}
 
 	public getPastActivities() {
