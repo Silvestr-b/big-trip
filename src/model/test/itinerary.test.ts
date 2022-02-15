@@ -144,7 +144,7 @@ describe("Itinerary", () => {
 		});
 	});
 
-	describe("Total Cost", () => {
+	describe("Statistics", () => {
 		it("Should return 0 total cost when empty", () => {
 			expect(itinerary.getTotalCost()).toBe(0);
 		});
@@ -230,6 +230,32 @@ describe("Itinerary", () => {
 
 			expect(itinerary.getTotalCostFor(taxi)).toBe(100);
 			expect(itinerary.getTotalCostFor(bus)).toBe(200);
+		});
+
+		it("Should return 0 number of activities of specified type when empty", () => {
+			expect(itinerary.getTotalNumberOf(bus)).toBe(0);
+		});
+
+		it("Should return 0 number of activities of specified type when no activities of such type added", () => {
+			const activity = new Activity(types, places);
+			const form = activity.getUpdateForm();
+			form.changeType(taxi);
+			activity.apply(form);
+
+			itinerary.addActivity(activity);
+
+			expect(itinerary.getTotalNumberOf(bus)).toBe(0);
+		});
+
+		it("Should return total number of activities of specified type when added", () => {
+			const activity = new Activity(types, places);
+			const form = activity.getUpdateForm();
+			form.changeType(taxi);
+			activity.apply(form);
+
+			itinerary.addActivity(activity);
+
+			expect(itinerary.getTotalNumberOf(taxi)).toBe(1);
 		});
 	});
 
