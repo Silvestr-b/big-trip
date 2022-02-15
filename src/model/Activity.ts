@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {Location} from "./Location";
 import {LocationCatalog} from "./LocationCatalog";
 import {ActivityType} from "./ActivityType";
@@ -7,6 +6,7 @@ import {AdditionalOption} from "./AdditionalOption";
 import {ActivityUpdateForm} from "./ActivityUpdateForm";
 
 export class Activity {
+	private TWO_DAYS_IN_MILLISECONDS = 172800000;
 	private selectedOptions: Set<AdditionalOption>;
 	private type: ActivityType;
 	private location: Location;
@@ -19,8 +19,8 @@ export class Activity {
 		this.selectedOptions = new Set();
 		this.type = activityTypeCatalog.getDefaultType();
 		this.location = locationCatalog.getDefaultLocation();
-		this.startDate = dayjs().toDate();
-		this.endDate = dayjs().add(2, 'day').toDate();
+		this.startDate = new Date()
+		this.endDate = new Date(this.startDate.getTime() + this.TWO_DAYS_IN_MILLISECONDS);
 		this.basePrice = 5;
 		this.favorite = false;
 	}
