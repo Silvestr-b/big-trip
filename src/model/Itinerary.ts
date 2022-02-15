@@ -41,45 +41,22 @@ export class Itinerary {
 	}
 
 	public getTotalNumberOf(activityType: ActivityType) {
-		let count = 0;
-		for (const activity of this.activities) {
-			if (activity.getType() === activityType) {
-				count++;
-			}
-		}
-		return count;
+		return this.getAllActivitiesOfType(activityType).length;
 	}
 
 	public getTotalDurationOf(activityType: ActivityType) {
-		let count = 0;
-		for (const activity of this.activities) {
-			if (activity.getType() === activityType) {
-				count += activity.getDuration();
-			}
-		}
-		return count;
+		return this.getAllActivitiesOfType(activityType)
+			.reduce((prevVal, activity) => prevVal + activity.getDuration(), 0);
 	}
 
 	public getFutureActivities() {
 		const now = new Date();
-		const result = [];
-		for (const activity of this.activities) {
-			if (activity.getStartDate() > now) {
-				result.push(activity);
-			}
-		}
-		return result;
+		return this.activities.filter(activity => activity.getStartDate() > now);
 	}
 
 	public getPastActivities() {
 		const now = new Date();
-		const result = [];
-		for (const activity of this.activities) {
-			if (activity.getEndDate() < now) {
-				result.push(activity);
-			}
-		}
-		return result;
+		return this.activities.filter(activity => activity.getEndDate() < now);
 	}
 
 	public getAllActivities() {
@@ -125,12 +102,20 @@ export class Itinerary {
 
 	private getFirstActivity() {
 		this.assertNotEmpty();
-		return this.activities.reduce((prev, curr) => prev.getStartDate() < curr.getStartDate() ? prev : curr);
+		return this.activities.reduce((prev, curr) => (
+			prev.getStartDate() < curr.getStartDate() ? prev : curr
+		));
 	}
 
 	private getLastActivity() {
 		this.assertNotEmpty();
-		return this.activities.reduce((prev, curr) => prev.getEndDate() > curr.getEndDate() ? prev : curr);
+		return this.activities.reduce((prev, curr) => (
+			prev.getEndDate() > curr.getEndDate() ? prev : curr
+		));
+	}
+
+	private getAllActivitiesOfType(activityType: ActivityType) {
+		return this.activities.filter(activity => activity.getType() === activityType);
 	}
 
 	private assertNotEmpty() {
