@@ -1,7 +1,7 @@
 import {Activity} from "./Activity";
 import {ActivityType} from "./ActivityType";
-import {UnknownActivityError} from "./errors/UnknownActivityError";
-import {EmptyItineraryError} from "./errors/EmptyItineraryError";
+import {UnknownActivityException} from "./errors/UnknownActivityException";
+import {EmptyItineraryException} from "./errors/EmptyItineraryException";
 import {ActivityAlreadyAddedException} from "./errors/ActivityAlreadyAddedException";
 
 export class Itinerary {
@@ -109,13 +109,13 @@ export class Itinerary {
 
 	private assertNotEmpty() {
 		if (this.isEmpty()) {
-			throw new EmptyItineraryError();
+			throw new EmptyItineraryException();
 		}
 	}
 
 	private assertExists(activity: Activity) {
 		if (!this.hasActivity(activity)) {
-			throw new UnknownActivityError();
+			throw new UnknownActivityException();
 		}
 	}
 

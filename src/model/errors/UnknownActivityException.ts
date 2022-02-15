@@ -1,4 +1,4 @@
 
-export class UnknownActivityError extends Error {
+export class UnknownActivityException extends Error {
 	public message = "Activity is not on the itinerary";
 }

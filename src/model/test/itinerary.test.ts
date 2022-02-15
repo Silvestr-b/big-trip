@@ -1,7 +1,7 @@
 import {Itinerary} from "../Itinerary";
 import {Activity} from "../Activity";
-import {UnknownActivityError} from "../errors/UnknownActivityError";
-import {EmptyItineraryError} from "../errors/EmptyItineraryError";
+import {UnknownActivityException} from "../errors/UnknownActivityException";
+import {EmptyItineraryException} from "../errors/EmptyItineraryException";
 import {OptionMother} from "./fixtures/OptionMother";
 import {TypeMother} from "./fixtures/TypeMother";
 import {LocationMother} from "./fixtures/LocationMother";
@@ -57,7 +57,7 @@ describe("Itinerary", () => {
 			const activity = new Activity(types, places);
 			const run = () => itinerary.removeActivity(activity);
 
-			expect(run).toThrow(UnknownActivityError);
+			expect(run).toThrow(UnknownActivityException);
 		});
 	});
 
@@ -66,8 +66,8 @@ describe("Itinerary", () => {
 			const getFirst = () => itinerary.getFirstLocationName();
 			const getLast = () => itinerary.getLastLocationName();
 
-			expect(getFirst).toThrow(EmptyItineraryError);
-			expect(getLast).toThrow(EmptyItineraryError);
+			expect(getFirst).toThrow(EmptyItineraryException);
+			expect(getLast).toThrow(EmptyItineraryException);
 		});
 
 		it("Should return the same location name as the first and the last when only one activity added", () => {
@@ -107,8 +107,8 @@ describe("Itinerary", () => {
 			const getStart = () => itinerary.getStartDate();
 			const getEnd = () => itinerary.getEndDate();
 
-			expect(getStart).toThrow(EmptyItineraryError);
-			expect(getEnd).toThrow(EmptyItineraryError);
+			expect(getStart).toThrow(EmptyItineraryException);
+			expect(getEnd).toThrow(EmptyItineraryException);
 		});
 
 		it("Should have the same start date as the activity has, when just one activity added", () => {
