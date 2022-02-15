@@ -5,7 +5,7 @@ import {IllegalOptionException} from "./errors/IllegalOptionException";
 
 export class ActivityUpdateForm {
 	constructor(
-		private selectedOptions: Set<AdditionalOption>,
+		private selectedOptions: AdditionalOption[],
 		private type: ActivityType,
 		private location: Location,
 		private startDate: Date,
@@ -37,7 +37,7 @@ export class ActivityUpdateForm {
 	}
 
 	public getSelectedOptions() {
-		return Array.from(this.selectedOptions);
+		return this.selectedOptions;
 	}
 
 	public isFavorite() {
@@ -47,8 +47,8 @@ export class ActivityUpdateForm {
 	// Commands
 
 	public changeType(type: ActivityType) {
+		this.clearSelectedOptions();
 		this.type = type;
-		this.selectedOptions.clear();
 	}
 
 	public changeLocation(location: Location) {
@@ -69,15 +69,31 @@ export class ActivityUpdateForm {
 
 	public toggleOption(option: AdditionalOption) {
 		this.assertOptionIsAcceptable(option);
-		if (this.selectedOptions.has(option)) {
-			this.selectedOptions.delete(option);
+		if (this.hasOption(option)) {
+			this.removeOption(option);
 		} else {
-			this.selectedOptions.add(option);
+			this.addOption(option);
 		}
 	}
 
 	public toggleFavorite() {
 		this.favorite = !this.favorite;
+	}
+
+	private hasOption(option: AdditionalOption) {
+		return this.selectedOptions.includes(option);
+	}
+
+	private addOption(option: AdditionalOption) {
+		this.selectedOptions.push(option);
+	}
+
+	private removeOption(optionToRemove: AdditionalOption) {
+		this.selectedOptions = this.selectedOptions.filter(option => option !== optionToRemove)
+	}
+
+	private clearSelectedOptions() {
+		this.selectedOptions = [];
 	}
 
 	private assertOptionIsAcceptable(option: AdditionalOption) {

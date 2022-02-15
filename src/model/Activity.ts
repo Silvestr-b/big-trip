@@ -7,7 +7,7 @@ import {ActivityUpdateForm} from "./ActivityUpdateForm";
 
 export class Activity {
 	private TWO_DAYS_IN_MILLISECONDS = 172800000;
-	private selectedOptions: Set<AdditionalOption>;
+	private selectedOptions: AdditionalOption[];
 	private type: ActivityType;
 	private location: Location;
 	private startDate: Date;
@@ -16,7 +16,7 @@ export class Activity {
 	private favorite: boolean;
 
 	constructor(activityTypeCatalog: ActivityTypeCatalog, locationCatalog: LocationCatalog) {
-		this.selectedOptions = new Set();
+		this.selectedOptions = []
 		this.type = activityTypeCatalog.getDefaultType();
 		this.location = locationCatalog.getDefaultLocation();
 		this.startDate = new Date()
@@ -68,11 +68,11 @@ export class Activity {
 	}
 
 	public getSelectedOptions() {
-		return Array.from(this.selectedOptions);
+		return this.selectedOptions;
 	}
 
 	public isOptionSelected(option: AdditionalOption) {
-		return this.selectedOptions.has(option);
+		return this.selectedOptions.includes(option);
 	}
 
 	public isFavorite() {
@@ -82,7 +82,7 @@ export class Activity {
 	// Commands
 
 	public apply(form: ActivityUpdateForm) {
-		this.selectedOptions = new Set(form.getSelectedOptions());
+		this.selectedOptions = form.getSelectedOptions();
 		this.type = form.getType();
 		this.location = form.getLocation();
 		this.startDate = form.getStartDate();
