@@ -60,11 +60,18 @@ export class Itinerary {
 		return count;
 	}
 
-	public getPastActivities() {
-
+	public getFutureActivities() {
+		const now = new Date();
+		const result = [];
+		for (const activity of this.activities) {
+			if (activity.getStartDate() > now) {
+				result.push(activity);
+			}
+		}
+		return result;
 	}
 
-	public getFutureActivities() {
+	public getPastActivities() {
 
 	}
 

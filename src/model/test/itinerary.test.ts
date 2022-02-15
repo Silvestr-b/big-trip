@@ -303,11 +303,37 @@ describe("Itinerary", () => {
 		});
 	});
 
-	describe("Sorting", () => {
+	describe("Filters", () => {
+		it("Should return an empty array when there are no future activities", () => {
+			expect(itinerary.getFutureActivities()).toEqual([]);
+		});
 
+		it("Should return a list of future activities when there are future activities", () => {
+			const pastActivity = new Activity(types, places);
+			const form1 = pastActivity.getUpdateForm();
+			form1.changeType(taxi);
+			form1.changeStartDate(new Date(1));
+			form1.changeEndDate(new Date(2));
+			pastActivity.apply(form1);
+
+			const futureActivity = new Activity(types, places);
+			const form2 = futureActivity.getUpdateForm();
+			form2.changeType(taxi);
+			form2.changeStartDate(new Date(new Date().getTime() + 1000));
+			form2.changeEndDate(new Date(new Date().getTime() + 2000));
+			futureActivity.apply(form2);
+
+			itinerary.addActivity(pastActivity);
+			itinerary.addActivity(futureActivity);
+
+			expect(itinerary.getFutureActivities()).toEqual([futureActivity])
+		});
+
+		// it("Should return an empty array when there are no past activities");
+		// it("Should return a list of past activities when there are past activities");
 	});
 
-	describe("Filters", () => {
+	describe("Sorting", () => {
 
 	});
 });
