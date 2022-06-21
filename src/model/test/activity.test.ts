@@ -1,29 +1,20 @@
 import {Activity} from "../Activity";
-import {OptionMother} from "./fixtures/OptionMother";
-import {TypeMother} from "./fixtures/TypeMother";
-import {LocationMother} from "./fixtures/LocationMother";
 import {IllegalOptionException} from "../errors/IllegalOptionException";
+import {ActivityWorld} from "./fixtures/ActivityWorld";
 
 describe("Activity", () => {
-	const upgrade = OptionMother.createUpgrade();
-	const radio = OptionMother.createRadio();
-	const meal = OptionMother.createMeal();
-	const taxi = TypeMother.createTaxi([upgrade, radio]);
-	const bus = TypeMother.createBus([meal]);
-	const types = TypeMother.createCatalog([taxi, bus]);
-	const chamonix = LocationMother.createChamonix();
-	const geneva = LocationMother.createGeneva();
-	const locations = LocationMother.createCatalog([chamonix, geneva]);
 	let activity: Activity;
+	let world: ActivityWorld;
 
 	beforeEach(() => {
-		activity = new Activity(types, locations);
+		world = new ActivityWorld();
+		activity = new Activity(world.activityTypeCatalog.getDefaultType(), world.locationCatalog.getDefaultLocation());
 	});
 
 	describe("Name", () => {
 		it("Should have the same default name as provided by the catalog", () => {
-			const typeName = types.getDefaultType().getName();
-			const locationName = locations.getDefaultLocation().getName();
+			const typeName = world.activityTypeCatalog.getDefaultType().getName();
+			const locationName = world.locationCatalog.getDefaultLocation().getName();
 
 			expect(activity.getName()).toBe(`${typeName} ${locationName}`);
 		});
@@ -31,19 +22,19 @@ describe("Activity", () => {
 		it("Should change its name when type is changed", () => {
 			const locationName = activity.getLocation().getName();
 			const form = activity.getUpdateForm();
-			form.changeType(bus)
+			form.changeType(world.types.hotel)
 			activity.apply(form);
 
-			expect(activity.getName()).toBe(`${bus.getName()} ${locationName}`);
+			expect(activity.getName()).toBe(`${world.types.hotel.getName()} ${locationName}`);
 		});
 
 		it("Should change its name when location is changed", () => {
 			const typeName = activity.getType().getName();
 			const form = activity.getUpdateForm();
-			form.changeLocation(geneva);
+			form.changeLocation(world.locations.newYork);
 			activity.apply(form);
 
-			expect(activity.getName()).toBe(`${typeName} ${geneva.getName()}`);
+			expect(activity.getName()).toBe(`${typeName} ${world.locations.newYork.getName()}`);
 		});
 	});
 
@@ -54,31 +45,31 @@ describe("Activity", () => {
 			activity.apply(form);
 
 			expect(activity.getBasePrice()).toBe(100);
-			expect(activity.getTotalPrice()).toBe(100);
+			expect(activity.getTotalCost()).toBe(100);
 		});
 
 		it("Should change its total price when an option is selected", () => {
 			const form = activity.getUpdateForm();
 			form.changePrice(100);
-			form.toggleOption(upgrade);
+			form.toggleOption(world.options.businessClass);
 			activity.apply(form);
 
 			expect(activity.getBasePrice()).toBe(100);
-			expect(activity.getTotalPrice()).toBe(290);
+			expect(activity.getTotalCost()).toBe(290);
 		});
 
 		it("Should change its total price when an option is deselected", () => {
 			const form1 = activity.getUpdateForm();
 			form1.changePrice(100);
-			form1.toggleOption(upgrade);
+			form1.toggleOption(world.options.businessClass);
 			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.toggleOption(upgrade);
+			form2.toggleOption(world.options.businessClass);
 			activity.apply(form2);
 
 			expect(activity.getBasePrice()).toBe(100);
-			expect(activity.getTotalPrice()).toBe(100);
+			expect(activity.getTotalCost()).toBe(100);
 		});
 	});
 
@@ -115,31 +106,31 @@ describe("Activity", () => {
 
 		it("Should add options when selected", () => {
 			const form = activity.getUpdateForm();
-			form.toggleOption(upgrade);
-			form.toggleOption(radio);
+			form.toggleOption(world.options.businessClass);
+			form.toggleOption(world.options.customRadio);
 			activity.apply(form);
 
-			expect(activity.isOptionSelected(upgrade)).toBe(true);
-			expect(activity.isOptionSelected(radio)).toBe(true);
+			expect(activity.isOptionSelected(world.options.businessClass)).toBe(true);
+			expect(activity.isOptionSelected(world.options.customRadio)).toBe(true);
 		});
 
 		it("Should remove options when deselected", () => {
 			const form1 = activity.getUpdateForm();
-			form1.toggleOption(upgrade);
+			form1.toggleOption(world.options.businessClass);
 			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.toggleOption(upgrade);
+			form2.toggleOption(world.options.businessClass);
 			activity.apply(form2);
 
-			expect(activity.isOptionSelected(upgrade)).toBe(false);
+			expect(activity.isOptionSelected(world.options.businessClass)).toBe(false);
 		});
 
 		it("Should add only allowed options", () => {
 			const run = () => {
 				const form = activity.getUpdateForm();
-				form.changeType(taxi);
-				form.toggleOption(meal);
+				form.changeType(world.types.taxi);
+				form.toggleOption(world.options.fireplace);
 			}
 
 			expect(run).toThrow(IllegalOptionException);
@@ -147,16 +138,16 @@ describe("Activity", () => {
 
 		it("Should deselect all options when the type is changed", () => {
 			const form1 = activity.getUpdateForm();
-			form1.toggleOption(upgrade);
-			form1.toggleOption(radio);
+			form1.toggleOption(world.options.businessClass);
+			form1.toggleOption(world.options.customRadio);
 			activity.apply(form1);
 
 			const form2 = activity.getUpdateForm();
-			form2.changeType(bus);
+			form2.changeType(world.types.hotel);
 			activity.apply(form2);
 
-			expect(activity.isOptionSelected(upgrade)).toBe(false);
-			expect(activity.isOptionSelected(radio)).toBe(false);
+			expect(activity.isOptionSelected(world.options.businessClass)).toBe(false);
+			expect(activity.isOptionSelected(world.options.customRadio)).toBe(false);
 		});
 	});
 

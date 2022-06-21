@@ -15,10 +15,10 @@ export class Activity {
 	private basePrice: number;
 	private favorite: boolean;
 
-	constructor(activityTypeCatalog: ActivityTypeCatalog, locationCatalog: LocationCatalog) {
+	constructor(type: ActivityType, location: Location) {
 		this.selectedOptions = []
-		this.type = activityTypeCatalog.getDefaultType();
-		this.location = locationCatalog.getDefaultLocation();
+		this.type = type;
+		this.location = location;
 		this.startDate = new Date()
 		this.endDate = new Date(this.startDate.getTime() + this.TWO_DAYS_IN_MILLISECONDS);
 		this.basePrice = 5;
@@ -59,7 +59,7 @@ export class Activity {
 		return this.endDate.getTime() - this.startDate.getTime();
 	}
 
-	public getTotalPrice() {
+	public getTotalCost() {
 		let result = this.basePrice;
 		for (const option of this.selectedOptions) {
 			result += option.getPrice();

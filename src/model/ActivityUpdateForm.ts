@@ -49,22 +49,27 @@ export class ActivityUpdateForm {
 	public changeType(type: ActivityType) {
 		this.clearSelectedOptions();
 		this.type = type;
+		return this;
 	}
 
 	public changeLocation(location: Location) {
 		this.location = location;
+		return this;
 	}
 
 	public changeStartDate(date: Date) {
 		this.startDate = date;
+		return this;
 	}
 
 	public changeEndDate(date: Date) {
 		this.endDate = date;
+		return this;
 	}
 
 	public changePrice(price: number) {
 		this.price = price;
+		return this;
 	}
 
 	public toggleOption(option: AdditionalOption) {
@@ -74,10 +79,12 @@ export class ActivityUpdateForm {
 		} else {
 			this.addOption(option);
 		}
+		return this;
 	}
 
 	public toggleFavorite() {
 		this.favorite = !this.favorite;
+		return this;
 	}
 
 	private hasOption(option: AdditionalOption) {
