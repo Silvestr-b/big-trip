@@ -1,8 +1,4 @@
-import {Itinerary} from "../main/Itinerary";
 import {ItineraryDriver} from "./fixtures/ItineraryDriver";
-import {ActivityAlreadyAddedException} from "../main/errors/ActivityAlreadyAddedException";
-import {UnknownActivityException} from "../main/errors/UnknownActivityException";
-import {EmptyItineraryException} from "../main/errors/EmptyItineraryException";
 import {ItineraryWorld} from "./fixtures/ItineraryWorld";
 
 describe("Itinerary", () => {
@@ -35,7 +31,7 @@ describe("Itinerary", () => {
 
 		it("Should not add an activity if it's already added", () => {
 			driver.addActivity(world.activities.SFTaxi);
-			driver.verifyAddActivityThrows(world.activities.SFTaxi, ActivityAlreadyAddedException);
+			driver.verifyAddActivityThrows(world.activities.SFTaxi, world.exceptions.ActivityAlreadyAddedException);
 		});
 
 		it("Should remove an activity", () => {
@@ -45,17 +41,17 @@ describe("Itinerary", () => {
 		});
 
 		it("Should throw on an attempt to remove an activity not added", () => {
-			driver.verifyRemoveActivityThrows(world.activities.SFTaxi, UnknownActivityException);
+			driver.verifyRemoveActivityThrows(world.activities.SFTaxi, world.exceptions.UnknownActivityException);
 		});
 	});
 
 	describe("Locations", () => {
 		it("Should throw on an attempt to get the name of the first location when empty", () => {
-			driver.verifyGetFirstLocationThrows(EmptyItineraryException);
+			driver.verifyGetFirstLocationThrows(world.exceptions.EmptyItineraryException);
 		});
 
 		it("Should throw on an attempt to get the name of the last location when empty", () => {
-			driver.verifyGetLastLocationThrows(EmptyItineraryException);
+			driver.verifyGetLastLocationThrows(world.exceptions.EmptyItineraryException);
 		});
 
 		it("Should return the same location name as the first and the last when only one activity added", () => {
@@ -74,8 +70,8 @@ describe("Itinerary", () => {
 
 	describe("Dates", () => {
 		it("Should throw on an attempt to get the start or end date when the itinerary is empty", () => {
-			driver.verifyGetStartDateThrows(EmptyItineraryException);
-			driver.verifyGetEndDateThrows(EmptyItineraryException);
+			driver.verifyGetStartDateThrows(world.exceptions.EmptyItineraryException);
+			driver.verifyGetEndDateThrows(world.exceptions.EmptyItineraryException);
 		});
 
 		it("Should have the same start date as the activity has, when just one activity added", () => {

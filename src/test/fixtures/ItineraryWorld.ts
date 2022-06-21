@@ -1,8 +1,16 @@
 import {World} from "./World";
 import {Itinerary} from "../../main/Itinerary";
 import {ActivityBuilder} from "./ActivityBuilder";
+import {ActivityAlreadyAddedException} from "../../main/errors/ActivityAlreadyAddedException";
+import {UnknownActivityException} from "../../main/errors/UnknownActivityException";
+import {EmptyItineraryException} from "../../main/errors/EmptyItineraryException";
 
 export class ItineraryWorld extends World {
+	public exceptions = {
+		ActivityAlreadyAddedException,
+		UnknownActivityException,
+		EmptyItineraryException
+	};
 	public activities = {
 		SFTaxi: this.getActivityBuilder()
 			.setLocation(this.locations.sanFrancisco)
