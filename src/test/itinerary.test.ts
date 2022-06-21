@@ -1,7 +1,7 @@
-import {Itinerary} from "../Itinerary";
-import {UnknownActivityException} from "../errors/UnknownActivityException";
-import {EmptyItineraryException} from "../errors/EmptyItineraryException";
-import {ActivityAlreadyAddedException} from "../errors/ActivityAlreadyAddedException";
+import {Itinerary} from "../main/Itinerary";
+import {UnknownActivityException} from "../main/errors/UnknownActivityException";
+import {EmptyItineraryException} from "../main/errors/EmptyItineraryException";
+import {ActivityAlreadyAddedException} from "../main/errors/ActivityAlreadyAddedException";
 import {ItineraryWorld} from "./fixtures/ItineraryWorld";
 
 describe("Itinerary", () => {

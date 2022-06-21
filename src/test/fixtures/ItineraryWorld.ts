@@ -1,5 +1,5 @@
 import {World} from "./World";
-import {Itinerary} from "../../Itinerary";
+import {Itinerary} from "../../main/Itinerary";
 import {ActivityBuilder} from "./ActivityBuilder";
 
 export class ItineraryWorld extends World {

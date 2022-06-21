@@ -1,8 +1,8 @@
-import {AdditionalOption} from "../../AdditionalOption";
-import {IllegalOptionException} from "../../errors/IllegalOptionException";
-import {ActivityType} from "../../ActivityType";
-import {Location} from "../../Location";
-import {Activity} from "../../Activity";
+import {AdditionalOption} from "../../main/AdditionalOption";
+import {IllegalOptionException} from "../../main/errors/IllegalOptionException";
+import {ActivityType} from "../../main/ActivityType";
+import {Location} from "../../main/Location";
+import {Activity} from "../../main/Activity";
 
 export class ActivityDriver {
 	private activity: Activity;

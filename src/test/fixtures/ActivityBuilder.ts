@@ -1,6 +1,6 @@
-import {Activity} from "../../Activity";
-import {ActivityType} from "../../ActivityType";
-import {Location} from "../../Location";
+import {Activity} from "../../main/Activity";
+import {ActivityType} from "../../main/ActivityType";
+import {Location} from "../../main/Location";
 
 export class ActivityBuilder {
 	private type: ActivityType;

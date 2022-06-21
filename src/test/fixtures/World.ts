@@ -1,8 +1,8 @@
-import {AdditionalOption} from "../../AdditionalOption";
-import {ActivityType} from "../../ActivityType";
-import {ActivityTypeCatalog} from "../../ActivityTypeCatalog";
-import {Location} from "../../Location";
-import {LocationCatalog} from "../../LocationCatalog";
+import {AdditionalOption} from "../../main/AdditionalOption";
+import {ActivityType} from "../../main/ActivityType";
+import {ActivityTypeCatalog} from "../../main/ActivityTypeCatalog";
+import {Location} from "../../main/Location";
+import {LocationCatalog} from "../../main/LocationCatalog";
 
 export class World {
 	public options = {

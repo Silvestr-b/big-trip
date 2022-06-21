@@ -1,8 +1,8 @@
-import {Itinerary} from "../Itinerary";
+import {Itinerary} from "../main/Itinerary";
 import {ItineraryDriver} from "./fixtures/ItineraryDriver";
-import {ActivityAlreadyAddedException} from "../errors/ActivityAlreadyAddedException";
-import {UnknownActivityException} from "../errors/UnknownActivityException";
-import {EmptyItineraryException} from "../errors/EmptyItineraryException";
+import {ActivityAlreadyAddedException} from "../main/errors/ActivityAlreadyAddedException";
+import {UnknownActivityException} from "../main/errors/UnknownActivityException";
+import {EmptyItineraryException} from "../main/errors/EmptyItineraryException";
 import {ItineraryWorld} from "./fixtures/ItineraryWorld";
 
 describe("Itinerary", () => {

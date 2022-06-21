@@ -1,5 +1,5 @@
 import {World} from "./World";
-import {Activity} from "../../Activity";
+import {Activity} from "../../main/Activity";
 
 export class ActivityWorld extends World {
 	public activity = new Activity(

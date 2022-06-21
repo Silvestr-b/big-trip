@@ -1,5 +1,5 @@
-import {Activity} from "../Activity";
-import {IllegalOptionException} from "../errors/IllegalOptionException";
+import {Activity} from "../main/Activity";
+import {IllegalOptionException} from "../main/errors/IllegalOptionException";
 import {ActivityWorld} from "./fixtures/ActivityWorld";
 
 describe("Activity", () => {

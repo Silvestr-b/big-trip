@@ -1,6 +1,6 @@
-import {Activity} from "../../Activity";
-import {ActivityType} from "../../ActivityType";
-import {Itinerary} from "../../Itinerary";
+import {Activity} from "../../main/Activity";
+import {ActivityType} from "../../main/ActivityType";
+import {Itinerary} from "../../main/Itinerary";
 
 export class ItineraryDriver {
 	private itinerary: Itinerary
