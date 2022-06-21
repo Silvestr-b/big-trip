@@ -1,7 +1,5 @@
 import {Location} from "./Location";
-import {LocationCatalog} from "./LocationCatalog";
 import {ActivityType} from "./ActivityType";
-import {ActivityTypeCatalog} from "./ActivityTypeCatalog";
 import {AdditionalOption} from "./AdditionalOption";
 import {ActivityUpdateForm} from "./ActivityUpdateForm";
 
