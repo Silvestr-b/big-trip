@@ -14,7 +14,7 @@ export class ActivityBuilder {
 		this.location = location;
 		this.startDate = new Date(1);
 		this.endDate = new Date(2);
-		this.price = 0;
+		this.price = 25;
 	}
 
 	public setType(type: ActivityType) {

@@ -70,19 +70,19 @@ export class Itinerary {
 	// Commands
 
 	public sortByStartDate() {
-
+		this.activities.sort((prev, next) => prev.getStartDate().getTime() >= next.getStartDate().getTime() ? 1 : -1);
 	}
 
 	public sortByName() {
-
+		this.activities.sort((prev, next) => prev.getName() >= next.getName() ? 1 : -1);
 	}
 
 	public sortByDuration() {
-
+		this.activities.sort((prev, next) => prev.getDuration() >= next.getDuration() ? 1 : -1);
 	}
 
 	public sortByPrice() {
-
+		this.activities.sort((prev, next) => prev.getBasePrice() >= next.getBasePrice() ? 1 : -1);
 	}
 
 	public addActivity(activity: Activity) {

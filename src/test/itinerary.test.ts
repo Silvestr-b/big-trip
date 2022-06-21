@@ -155,7 +155,7 @@ describe("Itinerary", () => {
 			itinerary.addActivity(world.activities.SFTaxi);
 			itinerary.addActivity(world.activities.SFHotel);
 			itinerary.addActivity(world.activities.NYTaxi);
-			expect(itinerary.getTotalDurationOf(world.types.taxi)).toBe(2);
+			expect(itinerary.getTotalDurationOf(world.types.taxi)).toBe(world.activities.SFTaxi.getDuration() + world.activities.NYTaxi.getDuration());
 		});
 	});
 

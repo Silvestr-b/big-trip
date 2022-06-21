@@ -17,6 +17,22 @@ export class ItineraryDriver {
 		this.itinerary.removeActivity(activity);
 	}
 
+	public sortByStartDate() {
+		this.itinerary.sortByStartDate();
+	}
+
+	public sortByName() {
+		this.itinerary.sortByName();
+	}
+
+	public sortByDuration() {
+		this.itinerary.sortByDuration();
+	}
+
+	public sortByPrice() {
+		this.itinerary.sortByPrice();
+	}
+
 
 	public verifyIsEmpty() {
 		expect(this.itinerary.isEmpty()).toBe(true);
@@ -104,5 +120,21 @@ export class ItineraryDriver {
 
 	public verifyPastActivitiesContain(activity: Activity) {
 		expect(this.itinerary.getPastActivities()).toContain(activity);
+	}
+
+	public verifyAllActivitiesOrder(activitiesInOrder: Activity[]) {
+		this.verifyActivitiesOrder(this.itinerary.getAllActivities(), activitiesInOrder);
+	}
+
+	public verifyFutureActivitiesOrder(activitiesInOrder: Activity[]) {
+		this.verifyActivitiesOrder(this.itinerary.getFutureActivities(), activitiesInOrder);
+	}
+
+	public verifyPastActivitiesOrder(activitiesInOrder: Activity[]) {
+		this.verifyActivitiesOrder(this.itinerary.getPastActivities(), activitiesInOrder);
+	}
+
+	private verifyActivitiesOrder(actualActivities: Activity[], activitiesInOrder: Activity[]) {
+		expect(actualActivities).toEqual(activitiesInOrder.filter(activity => actualActivities.includes(activity)));
 	}
 }

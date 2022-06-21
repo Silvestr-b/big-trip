@@ -166,8 +166,8 @@ describe("Itinerary", () => {
 			driver.addActivity(world.activities.SFTaxi);
 			driver.addActivity(world.activities.SFHotel);
 			driver.addActivity(world.activities.NYTaxi);
-			driver.verifyTotalDurationOf(world.types.taxi, 2);
-			driver.verifyTotalDurationOf(world.types.hotel, 1);
+			driver.verifyTotalDurationOf(world.types.taxi, world.activities.SFTaxi.getDuration() + world.activities.NYTaxi.getDuration());
+			driver.verifyTotalDurationOf(world.types.hotel, world.activities.SFHotel.getDuration());
 		});
 	});
 
@@ -204,6 +204,48 @@ describe("Itinerary", () => {
 	});
 
 	describe("Sorting", () => {
+		it("Should sort activities by start date", () => {
+			driver.addActivity(world.activities.NYHotel);
+			driver.addActivity(world.activities.NYTaxi);
+			driver.addActivity(world.activities.SFTaxi);
+			driver.addActivity(world.activities.SFHotel);
+			driver.sortByStartDate();
+			driver.verifyAllActivitiesOrder(world.activityOrders.byStartDate);
+			driver.verifyFutureActivitiesOrder(world.activityOrders.byStartDate);
+			driver.verifyPastActivitiesOrder(world.activityOrders.byStartDate);
+		});
 
+		it("Should sort activities by name", () => {
+			driver.addActivity(world.activities.SFTaxi);
+			driver.addActivity(world.activities.SFHotel);
+			driver.addActivity(world.activities.NYTaxi);
+			driver.addActivity(world.activities.NYHotel);
+			driver.sortByName();
+			driver.verifyAllActivitiesOrder(world.activityOrders.byName);
+			driver.verifyPastActivitiesOrder(world.activityOrders.byName);
+			driver.verifyPastActivitiesOrder(world.activityOrders.byName);
+		});
+
+		it("Should sort activities by duration", () => {
+			driver.addActivity(world.activities.SFTaxi);
+			driver.addActivity(world.activities.SFHotel);
+			driver.addActivity(world.activities.NYTaxi);
+			driver.addActivity(world.activities.NYHotel);
+			driver.sortByDuration();
+			driver.verifyAllActivitiesOrder(world.activityOrders.byDuration);
+			driver.verifyPastActivitiesOrder(world.activityOrders.byDuration);
+			driver.verifyFutureActivitiesOrder(world.activityOrders.byDuration);
+		});
+
+		it("Should sort activities by Price", () => {
+			driver.addActivity(world.activities.SFHotel);
+			driver.addActivity(world.activities.SFTaxi);
+			driver.addActivity(world.activities.NYHotel);
+			driver.addActivity(world.activities.NYTaxi);
+			driver.sortByPrice();
+			driver.verifyAllActivitiesOrder(world.activityOrders.byPrice);
+			driver.verifyPastActivitiesOrder(world.activityOrders.byPrice);
+			driver.verifyFutureActivitiesOrder(world.activityOrders.byPrice);
+		});
 	});
 });
