@@ -1,111 +1,123 @@
 import {ActivityDriver} from "./fixtures/ActivityDriver";
-import {ActivityWorld} from "./fixtures/ActivityWorld";
+import {ActivityContext} from "./fixtures/ActivityContext";
 
 describe("Activity", () => {
-	let world: ActivityWorld;
-	let driver: ActivityDriver;
+	let ctx: ActivityContext;
+	let sut: ActivityDriver;
 
 	beforeEach(() => {
-		world = new ActivityWorld();
-		driver = new ActivityDriver(world.activity);
+		ctx = new ActivityContext();
+		sut = new ActivityDriver(ctx.defaultType, ctx.defaultLocation);
 	});
 
 	describe("Name", () => {
-		it("Should have the same default name as provided by the catalog", () => {
-			driver.verifyName(`${world.activityTypeCatalog.getDefaultType().getName()} ${world.locationCatalog.getDefaultLocation().getName()}`);
+		it("Should have a default name", () => {
+			sut.verifyName(`${ctx.defaultType.getName()} ${ctx.defaultLocation.getName()}`);
 		});
 
 		it("Should change its name when type is changed", () => {
-			driver.changeLocation(world.locations.newYork);
-			driver.changeType(world.types.taxi);
-			driver.changeType(world.types.hotel);
-			driver.verifyName(`${world.types.hotel.getName()} ${world.locations.newYork.getName()}`);
+			sut.changeLocation(ctx.locations.newYork);
+			sut.changeType(ctx.types.taxi);
+			sut.changeType(ctx.types.hotel);
+
+			sut.verifyName(`${ctx.types.hotel.getName()} ${ctx.locations.newYork.getName()}`);
 		});
 
 		it("Should change its name when location is changed", () => {
-			driver.changeType(world.types.hotel);
-			driver.changeLocation(world.locations.sanFrancisco);
-			driver.changeLocation(world.locations.newYork);
-			driver.verifyName(`${world.types.hotel.getName()} ${world.locations.newYork.getName()}`);
+			sut.changeType(ctx.types.hotel);
+			sut.changeLocation(ctx.locations.sanFrancisco);
+			sut.changeLocation(ctx.locations.newYork);
+
+			sut.verifyName(`${ctx.types.hotel.getName()} ${ctx.locations.newYork.getName()}`);
 		});
 	});
 
 	describe("Price", () => {
 		it("Should change its total price when the base price is changed", () => {
-			driver.changePrice(100);
-			driver.verifyBasePrice(100);
-			driver.verifyTotalCost(100);
+			sut.changeBasePrice(100);
+
+			sut.verifyBasePrice(100);
+			sut.verifyTotalCost(100);
 		});
 
 		it("Should change its total price when an option is selected", () => {
-			driver.changePrice(0);
-			driver.toggleOption(world.options.businessClass);
-			driver.verifyBasePrice(0);
-			driver.verifyTotalCost(world.options.businessClass.getPrice());
+			sut.changeBasePrice(0);
+			sut.toggleOption(ctx.options.businessClass);
+
+			sut.verifyBasePrice(0);
+			sut.verifyTotalCost(ctx.options.businessClass.getPrice());
 		});
 
 		it("Should change its total price when an option is deselected", () => {
-			driver.changePrice(100);
-			driver.toggleOption(world.options.businessClass);
-			driver.toggleOption(world.options.businessClass);
-			driver.verifyBasePrice(100);
-			driver.verifyTotalCost(100);
+			sut.changeBasePrice(100);
+			sut.toggleOption(ctx.options.businessClass);
+			sut.toggleOption(ctx.options.businessClass);
+
+			sut.verifyBasePrice(100);
+			sut.verifyTotalCost(100);
 		});
 	});
 
 	describe("Favorite", () => {
 		it("Should not be favorite by default", () => {
-			driver.verifyIsNotFavorite();
+			sut.verifyIsNotFavorite();
 		});
 
 		it("Should be favorite if toggle", () => {
-			driver.toggleFavorite();
-			driver.verifyIsFavorite();
+			sut.toggleFavorite();
+
+			sut.verifyIsFavorite();
 		});
 
 		it("Should not be favorite if toggle back", () => {
-			driver.toggleFavorite();
-			driver.toggleFavorite();
-			driver.verifyIsNotFavorite();
+			sut.toggleFavorite();
+			sut.toggleFavorite();
+
+			sut.verifyIsNotFavorite();
 		});
 	});
 
 	describe("Options", () => {
 		it("Should not have selected options by default", () => {
-			driver.verifyNoOptionSelected();
+			sut.verifyNoOptionSelected();
 		});
 
 		it("Should add options when selected", () => {
-			driver.toggleOption(world.options.businessClass);
-			driver.toggleOption(world.options.customRadio);
-			driver.verifyOptionSelected(world.options.businessClass);
-			driver.verifyOptionSelected(world.options.customRadio);
+			sut.toggleOption(ctx.options.businessClass);
+			sut.toggleOption(ctx.options.customRadio);
+
+			sut.verifyOptionSelected(ctx.options.businessClass);
+			sut.verifyOptionSelected(ctx.options.customRadio);
 		});
 
 		it("Should remove options when deselected", () => {
-			driver.toggleOption(world.options.businessClass);
-			driver.toggleOption(world.options.businessClass);
-			driver.verifyOptionNotSelected(world.options.businessClass);
+			sut.toggleOption(ctx.options.businessClass);
+			sut.toggleOption(ctx.options.businessClass);
+
+			sut.verifyOptionNotSelected(ctx.options.businessClass);
 		});
 
 		it("Should add only allowed options", () => {
-			driver.changeType(world.types.taxi);
-			driver.verifyToggleOptionThrows(world.options.fireplace);
+			sut.changeType(ctx.types.taxi);
+
+			sut.verifyToggleOptionThrows(ctx.options.fireplace);
 		});
 
 		it("Should deselect all options when the type is changed", () => {
-			driver.toggleOption(world.options.businessClass);
-			driver.toggleOption(world.options.customRadio);
-			driver.changeType(world.types.hotel);
-			driver.verifyNoOptionSelected();
+			sut.toggleOption(ctx.options.businessClass);
+			sut.toggleOption(ctx.options.customRadio);
+			sut.changeType(ctx.types.hotel);
+
+			sut.verifyNoOptionSelected();
 		});
 	});
 
 	describe("Duration", () => {
 		it("Should calculate the duration", () => {
-			driver.changeStartDate(new Date(2));
-			driver.changeEndDate(new Date(5));
-			driver.verifyDuration(3);
+			sut.changeStartDate(new Date(2));
+			sut.changeEndDate(new Date(5));
+
+			sut.verifyDuration(3);
 		});
 	});
 });

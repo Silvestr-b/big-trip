@@ -1,13 +1,13 @@
 import {Activity} from "../main/Activity";
 import {IllegalOptionException} from "../main/errors/IllegalOptionException";
-import {ActivityWorld} from "./fixtures/ActivityWorld";
+import {ActivityContext} from "./fixtures/ActivityContext";
 
 describe("Activity", () => {
 	let activity: Activity;
-	let world: ActivityWorld;
+	let world: ActivityContext;
 
 	beforeEach(() => {
-		world = new ActivityWorld();
+		world = new ActivityContext();
 		activity = new Activity(world.activityTypeCatalog.getDefaultType(), world.locationCatalog.getDefaultLocation());
 	});
 

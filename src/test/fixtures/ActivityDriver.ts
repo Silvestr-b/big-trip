@@ -4,95 +4,93 @@ import {ActivityType} from "../../main/ActivityType";
 import {Location} from "../../main/Location";
 import {Activity} from "../../main/Activity";
 
-export class ActivityDriver {
-	private activity: Activity;
+export class ActivityDriver extends Activity {
+	constructor(type: ActivityType, location: Location) {
+		super(type, location);
+	}
 
-	constructor(activity: Activity) {
-		this.activity = activity;
+	public changeType(type: ActivityType) {
+		const form = this.getUpdateForm();
+		form.changeType(type);
+		this.apply(form);
+	}
+
+	public changeLocation(location: Location) {
+		const form = this.getUpdateForm();
+		form.changeLocation(location);
+		this.apply(form);
+	}
+
+	public changeBasePrice(price: number) {
+		const form = this.getUpdateForm();
+		form.changePrice(price);
+		this.apply(form);
+	}
+
+	public toggleOption(option: AdditionalOption) {
+		const form = this.getUpdateForm();
+		form.toggleOption(option);
+		this.apply(form);
+	}
+
+	public toggleFavorite() {
+		const form = this.getUpdateForm();
+		form.toggleFavorite();
+		this.apply(form);
+	}
+
+	public changeStartDate(date: Date) {
+		const form = this.getUpdateForm();
+		form.changeStartDate(date);
+		this.apply(form);
+	}
+
+	public changeEndDate(date: Date) {
+		const form = this.getUpdateForm();
+		form.changeEndDate(date);
+		this.apply(form);
 	}
 
 	public verifyName(expected: string) {
-		expect(this.activity.getName()).toBe(expected);
+		expect(this.getName()).toBe(expected);
 	}
 
 	public verifyBasePrice(expected: number) {
-		expect(this.activity.getBasePrice()).toBe(expected);
+		expect(this.getBasePrice()).toBe(expected);
 	}
 
 	public verifyTotalCost(expected: number) {
-		expect(this.activity.getTotalCost()).toBe(expected);
+		expect(this.getTotalCost()).toBe(expected);
 	}
 
 	public verifyIsFavorite() {
-		expect(this.activity.isFavorite()).toBe(true);
+		expect(this.isFavorite()).toBe(true);
 	}
 
 	public verifyIsNotFavorite() {
-		expect(this.activity.isFavorite()).toBe(false);
+		expect(this.isFavorite()).toBe(false);
 	}
 
 	public verifyNoOptionSelected() {
-		expect(this.activity.getSelectedOptions()).toEqual([]);
+		expect(this.getSelectedOptions()).toEqual([]);
 	}
 
 	public verifyOptionSelected(option: AdditionalOption) {
-		expect(this.activity.isOptionSelected(option)).toBe(true);
+		expect(this.isOptionSelected(option)).toBe(true);
 	}
 
 	public verifyOptionNotSelected(option: AdditionalOption) {
-		expect(this.activity.isOptionSelected(option)).toBe(false);
+		expect(this.isOptionSelected(option)).toBe(false);
 	}
 
 	public verifyToggleOptionThrows(option: AdditionalOption) {
 		expect(() => {
-			const form = this.activity.getUpdateForm();
+			const form = this.getUpdateForm();
 			form.toggleOption(option);
 		}).toThrow(IllegalOptionException);
 	}
 
 	public verifyDuration(duration: number) {
-		expect(this.activity.getDuration()).toBe(duration);
-	}
-
-	public changeType(type: ActivityType) {
-		const form = this.activity.getUpdateForm();
-		form.changeType(type);
-		this.activity.apply(form);
-	}
-
-	public changeLocation(location: Location) {
-		const form = this.activity.getUpdateForm();
-		form.changeLocation(location);
-		this.activity.apply(form);
-	}
-
-	public changePrice(price: number) {
-		const form = this.activity.getUpdateForm();
-		form.changePrice(price);
-		this.activity.apply(form);
-	}
-
-	public toggleOption(option: AdditionalOption) {
-		const form = this.activity.getUpdateForm();
-		form.toggleOption(option);
-		this.activity.apply(form);
-	}
-
-	public toggleFavorite() {
-		const form = this.activity.getUpdateForm();
-		form.toggleFavorite();
-		this.activity.apply(form);
-	}
-
-	public changeStartDate(date: Date) {
-		const form = this.activity.getUpdateForm();
-		form.changeStartDate(date);
-		this.activity.apply(form);
-	}
-
-	public changeEndDate(date: Date) {
-		const form = this.activity.getUpdateForm();
-		form.changeEndDate(date);
-		this.activity.apply(form);
+		expect(this.getDuration()).toBe(duration);
 	}
 }

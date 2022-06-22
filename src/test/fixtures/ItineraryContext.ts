@@ -1,16 +1,16 @@
-import {World} from "./World";
-import {Itinerary} from "../../main/Itinerary";
+import {CommonContext} from "./CommonContext";
 import {ActivityBuilder} from "./ActivityBuilder";
 import {ActivityAlreadyAddedException} from "../../main/errors/ActivityAlreadyAddedException";
 import {UnknownActivityException} from "../../main/errors/UnknownActivityException";
 import {EmptyItineraryException} from "../../main/errors/EmptyItineraryException";
 
-export class ItineraryWorld extends World {
+export class ItineraryContext extends CommonContext {
 	public exceptions = {
 		ActivityAlreadyAddedException,
 		UnknownActivityException,
 		EmptyItineraryException
 	};
+
 	public activities = {
 		SFTaxi: this.getActivityBuilder()
 			.setLocation(this.locations.sanFrancisco)
@@ -44,6 +44,7 @@ export class ItineraryWorld extends World {
 			.setEndDate(new Date(new Date().getTime() + 1004))
 			.build()
 	}
+
 	public activityOrders = {
 		byStartDate: [
 			this.activities.SFTaxi,
@@ -70,8 +71,6 @@ export class ItineraryWorld extends World {
 			this.activities.NYHotel
 		]
 	}
-
-	public itinerary = new Itinerary();
 
 	public getActivityBuilder() {
 		return new ActivityBuilder(

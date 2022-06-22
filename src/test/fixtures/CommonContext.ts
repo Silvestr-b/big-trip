@@ -4,7 +4,7 @@ import {ActivityTypeCatalog} from "../../main/ActivityTypeCatalog";
 import {Location} from "../../main/Location";
 import {LocationCatalog} from "../../main/LocationCatalog";
 
-export class World {
+export class CommonContext {
 	public options = {
 		businessClass: new AdditionalOption("BusinessClass", "Upgrade to business class", 190),
 		customRadio: new AdditionalOption("CustomRadio", "Choose the radio station", 30),

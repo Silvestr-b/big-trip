@@ -2,14 +2,14 @@ import {Itinerary} from "../main/Itinerary";
 import {UnknownActivityException} from "../main/errors/UnknownActivityException";
 import {EmptyItineraryException} from "../main/errors/EmptyItineraryException";
 import {ActivityAlreadyAddedException} from "../main/errors/ActivityAlreadyAddedException";
-import {ItineraryWorld} from "./fixtures/ItineraryWorld";
+import {ItineraryContext} from "./fixtures/ItineraryContext";
 
 describe("Itinerary", () => {
-	let world: ItineraryWorld;
+	let world: ItineraryContext;
 	let itinerary: Itinerary;
 
 	beforeEach(() => {
-		world = new ItineraryWorld();
+		world = new ItineraryContext();
 		itinerary = new Itinerary();
 	})
 
