@@ -11,37 +11,44 @@ export class ItineraryContext extends CommonContext {
 		EmptyItineraryException
 	};
 
+	public dates = {
+		twoDaysAgo: new Date(Date.now() - 2 * 86e+7),
+		oneDayAgo: new Date(Date.now() - 86e+7),
+		oneDayLater: new Date(Date.now() + 86e+7),
+		twoDaysLater: new Date(Date.now() + 2 * 86e+7)
+	};
+
 	public activities = {
 		SFTaxi: this.getActivityBuilder()
-			.setLocation(this.locations.sanFrancisco)
-			.setType(this.types.taxi)
-			.setPrice(100)
-			.setStartDate(new Date(1))
-			.setEndDate(new Date(10))
+			.withLocation(this.locations.sanFrancisco)
+			.withType(this.types.taxi)
+			.withPrice(100)
+			.withStartDate(this.dates.twoDaysAgo)
+			.withDuration(4)
 			.build(),
 
 		SFHotel: this.getActivityBuilder()
-			.setLocation(this.locations.sanFrancisco)
-			.setType(this.types.hotel)
-			.setPrice(200)
-			.setStartDate(new Date(11))
-			.setEndDate(new Date(16))
+			.withLocation(this.locations.sanFrancisco)
+			.withType(this.types.hotel)
+			.withPrice(200)
+			.withStartDate(this.dates.oneDayAgo)
+			.withDuration(3)
 			.build(),
 
 		NYTaxi: this.getActivityBuilder()
-			.setLocation(this.locations.newYork)
-			.setType(this.types.taxi)
-			.setPrice(300)
-			.setStartDate(new Date(new Date().getTime() + 1000))
-			.setEndDate(new Date(new Date().getTime() + 1002))
+			.withLocation(this.locations.newYork)
+			.withType(this.types.taxi)
+			.withPrice(300)
+			.withStartDate(this.dates.oneDayLater)
+			.withDuration(2)
 			.build(),
 
 		NYHotel: this.getActivityBuilder()
-			.setLocation(this.locations.newYork)
-			.setType(this.types.hotel)
-			.setPrice(400)
-			.setStartDate(new Date(new Date().getTime() + 1003))
-			.setEndDate(new Date(new Date().getTime() + 1004))
+			.withLocation(this.locations.newYork)
+			.withType(this.types.hotel)
+			.withPrice(400)
+			.withStartDate(this.dates.twoDaysLater)
+			.withDuration(1)
 			.build()
 	}
 
